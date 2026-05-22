@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Setting extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'key',
+        'value',
+        'type',
+        'group',
+    ];
+
+    public const GROUP_GENERAL = 'general';
+    public const GROUP_COMPANY = 'company';
+    public const GROUP_EMAIL = 'email';
+    public const GROUP_SYSTEM = 'system';
+
+    public static function get($key, $default = null)
+    {
+        $setting = self::where('key', $key)->first();
+        return $setting ? $setting->value : $default;
+    }
+
+    public static function set($key, $value, $type = 'string', $group = 'general')
+    {
+        return self::updateOrCreate(
+            ['key' => $key],
+            [
+                'value' => $value,
+                'type' => $type,
+                'group' => $group,
+            ]
+        );
+    }
+
+    public static function allByGroup($group)
+    {
+        return self::where('group', $group)->get();
+    }
+
+    public static function companyName(): string
+    {
+        return self::get('company_name', 'BPA Asset Management');
+    }
+
+    public static function companyLogo(): ?string
+    {
+        return self::get('company_logo');
+    }
+
+    public static function companyLogoSrc(): ?string
+    {
+        $logo = self::companyLogo();
+        if (!$logo) return null;
+
+        if (str_starts_with($logo, 'data:')) {
+            return $logo;
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($logo);
+    }
+
+    public static function companyAddress(): ?string
+    {
+        return self::get('company_address');
+    }
+
+    public static function companyEmail(): ?string
+    {
+        return self::get('company_email');
+    }
+
+    public static function companyPhone(): ?string
+    {
+        return self::get('company_phone');
+    }
+
+    public static function timezone(): string
+    {
+        return self::get('timezone', 'Asia/Manila');
+    }
+
+    public static function emailFrom(): string
+    {
+        return self::get('email_from_address', 'noreply@bpa.com');
+    }
+
+    public static function emailFromName(): string
+    {
+        return self::get('email_from_name', 'BPA Asset Management');
+    }
+}

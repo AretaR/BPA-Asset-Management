@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Block access to hidden files (e.g., .env)
+    RewriteRule "(^|/)\." - [F]
+
+    # Block access to sensitive project files
+    RewriteRule ^(composer\.json|composer\.lock|package\.json|vite\.config\.js|README\.md|PROJECT_SUMMARY\.md|QUICKSTART\.md|setup\.bat|setup\.sh)$ - [F,L,NC]
+
+    # Block access to internal directories
+    RewriteRule ^(storage|bootstrap/cache) - [F,L,NC]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Forward all other requests to the public folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
