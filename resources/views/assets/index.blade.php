@@ -91,6 +91,7 @@
                 <thead>
                     <tr>
                         <th>Asset Tag</th>
+                        <th class="d-none d-sm-table-cell">Image</th>
                         <th>Name</th>
                         <th>Category</th>
                         <th class="d-none d-lg-table-cell">Department</th>
@@ -107,6 +108,14 @@
                             <a href="{{ route('assets.show', $asset) }}">
                                 <strong>{{ $asset->asset_tag }}</strong>
                             </a>
+                        </td>
+                        <td class="d-none d-sm-table-cell">
+                            @if($asset->image)
+                                <img src="{{ asset('storage/' . $asset->image) }}" alt=""
+                                     class="rounded" style="width:36px;height:36px;object-fit:cover;">
+                            @else
+                                <span class="text-muted"><i class="fas fa-image fa-lg"></i></span>
+                            @endif
                         </td>
                         <td>{{ Str::limit($asset->name, 30) }}</td>
                         <td>{{ $asset->category->name ?? 'N/A' }}</td>
@@ -143,7 +152,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="text-center text-muted py-4">
+                        <td colspan="9" class="text-center text-muted py-4">
                             <i class="fas fa-inbox fa-3x mb-3"></i>
                             <p>No assets found. @can('create', \App\Models\Asset::class)<a href="{{ route('assets.create') }}">Create one</a>@endcan</p>
                         </td>
