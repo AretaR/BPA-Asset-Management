@@ -16,6 +16,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'avatar',
         'password',
         'employee_id',
         'department_id',
@@ -107,5 +108,34 @@ class User extends Authenticatable
     public function getAssetsCountAttribute(): int
     {
         return $this->assignedAssets()->count();
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            return asset('storage/' . $this->avatar);
+        }
+
+        // Generate a local SVG initials avatar — no external dependencies
+        $words = explode(' ', trim($this->name));
+        $initials = strtoupper(substr($words[0], 0, 1));
+        if (count($words) > 1) {
+            $initials .= strtoupper(substr(end($words), 0, 1));
+        }
+
+        // Pick a consistent colour from the user's name
+        $colours = [
+            '#0D8ABC', '#6366f1', '#8b5cf6', '#ec4899',
+            '#f59e0b', '#10b981', '#3b82f6', '#ef4444',
+        ];
+        $colour = $colours[ord($this->name[0]) % count($colours)];
+
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">'
+            . '<rect width="200" height="200" fill="' . $colour . '"/>'
+            . '<text x="100" y="115" text-anchor="middle" font-family="Arial,sans-serif" '
+            . 'font-size="80" font-weight="bold" fill="#ffffff">' . $initials . '</text>'
+            . '</svg>';
+
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 }

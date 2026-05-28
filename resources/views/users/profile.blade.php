@@ -7,7 +7,7 @@
     </h1>
 </div>
 
-<form action="{{ route('users.updateProfile', auth()->user()) }}" method="POST">
+<form action="{{ route('users.updateProfile') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row">
@@ -17,6 +17,27 @@
                     <i class="fas fa-user me-2"></i> Personal Information
                 </div>
                 <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                            <img src="{{ auth()->user()->avatar_url }}" 
+                                 alt="Avatar Preview" 
+                                 class="rounded-circle border border-3 border-light shadow-sm" 
+                                 style="width: 120px; height: 120px; object-fit: cover;" 
+                                 id="avatar-preview">
+                        </div>
+                        <div class="mt-3">
+                            <label for="avatar" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-camera me-1"></i> Choose New Avatar
+                            </label>
+                            <input type="file" class="d-none @error('avatar') is-invalid @enderror" 
+                                   id="avatar" name="avatar" accept="image/*" onchange="previewImage(this)">
+                            @error('avatar')
+                                <div class="invalid-feedback d-block mt-2">{{ $message }}</div>
+                            @enderror
+                            <div class="text-muted small mt-1">JPG, PNG, GIF or WEBP. Max 2MB.</div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name *</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -129,3 +150,17 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@endpush

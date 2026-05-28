@@ -1,10 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
-    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
     
     if (sidebarToggle && sidebar) {
         sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('show');
+            sidebar.classList.toggle('open');
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.toggle('show');
+            }
+        });
+    }
+
+    if (sidebarOverlay && sidebar) {
+        sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('show');
         });
     }
 

@@ -238,7 +238,7 @@
 </div>
 
 @push('scripts')
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 <script>
 function previewImage(event) {
     const reader = new FileReader();
@@ -257,7 +257,8 @@ document.getElementById('scanSerialModal').addEventListener('shown.bs.modal', fu
     const container = document.getElementById('serial-scanner');
     container.innerHTML = '';
 
-    serialScanner = new Html5Qrcode('serial-scanner');
+    setTimeout(() => {
+        serialScanner = new Html5Qrcode('serial-scanner');
     serialScanner.start(
         { facingMode: 'environment' },
         {
@@ -286,10 +287,11 @@ document.getElementById('scanSerialModal').addEventListener('shown.bs.modal', fu
                 if (modal) modal.hide();
             }, 600);
         },
-        function onFail() {}
-    ).catch(() => {
-        container.innerHTML = '<div class="alert alert-danger text-center py-4 mb-0"><i class="fas fa-exclamation-triangle fa-2x mb-2"></i><br><small>Camera unavailable</small></div>';
-    });
+            function onFail() {}
+        ).catch(() => {
+            container.innerHTML = '<div class="alert alert-danger text-center py-4 mb-0"><i class="fas fa-exclamation-triangle fa-2x mb-2"></i><br><small>Camera unavailable</small></div>';
+        });
+    }, 500);
 });
 
 document.getElementById('scanSerialModal').addEventListener('hidden.bs.modal', function () {

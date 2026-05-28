@@ -2,238 +2,195 @@
 
 @section('content')
 <div class="login-wrapper">
-    <div class="login-side text-white d-none d-lg-flex flex-column justify-content-center align-items-center">
-        <div class="ocean-bg"></div>
-        <div class="sun"></div>
-        <div class="island"></div>
-        <div class="waves"></div>
-        <div class="side-content text-center px-5">
-            <div class="mb-4">
-                <i class="fas fa-satellite-dish fa-4x text-white opacity-75"></i>
+    <div class="login-glass-card shadow-lg">
+        <div class="row g-0 h-100">
+            <!-- Left Branding Side -->
+            <div class="col-lg-5 d-none d-lg-flex flex-column justify-content-between p-5 text-white login-brand-side">
+                <div class="brand-overlay"></div>
+                <div class="position-relative z-index-2">
+                    <i class="fas fa-cube fa-3x mb-4 text-white opacity-75"></i>
+                    <h2 class="fw-bold display-6 mb-3">BPA Asset Management</h2>
+                    <p class="lead opacity-75 fs-6 lh-lg">An exclusive, centralized portal for authorized personnel to seamlessly track, manage, and optimize organizational resources.</p>
+                </div>
+
             </div>
-            <h1 class="display-5 fw-bold mb-4">Welcome to BPA Asset Management</h1>
-            <p class="lead text-white-50">Empowering Radio Kiribati with efficient asset tracking and management across the islands.</p>
-        </div>
-    </div>
-    <div class="login-form-side d-flex align-items-center justify-content-center">
-        <div class="login-box w-100 p-4 p-sm-5">
-            <div class="text-center mb-5">
-                @if($logo = \App\Models\Setting::companyLogoSrc())
-                    <img src="{{ $logo }}" alt="Logo" class="login-logo mb-4">
-                @else
-                    <div class="logo-placeholder mb-4 mx-auto d-flex align-items-center justify-content-center bg-primary text-white rounded-circle shadow-sm">
-                        <i class="fas fa-building fa-2x"></i>
+            
+            <!-- Right Form Side -->
+            <div class="col-lg-7 d-flex align-items-center p-4 p-sm-5 bg-white login-form-side">
+                <div class="w-100 px-md-4">
+                    <div class="text-center mb-5">
+                        @if($logo = \App\Models\Setting::companyLogoSrc())
+                            <img src="{{ $logo }}" alt="Logo" class="login-logo mb-4">
+                        @else
+                            <div class="logo-placeholder mb-4 mx-auto d-flex align-items-center justify-content-center bg-dark text-white rounded-circle shadow-sm">
+                                <i class="fas fa-building fa-2x"></i>
+                            </div>
+                        @endif
+                        <h3 class="fw-bold text-dark mb-2">Welcome Back</h3>
+                        <p class="text-muted small">Please sign in to access your dashboard</p>
                     </div>
-                @endif
-                <h2 class="fw-bolder text-dark mb-1">{{ \App\Models\Setting::companyName() }}</h2>
-                <p class="text-muted">Sign in to your account</p>
-            </div>
 
-            <form method="POST" action="{{ route('login') }}" class="needs-validation">
-                @csrf
-                <div class="form-floating mb-4">
-                    <input type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" 
-                           id="email" name="email" value="{{ old('email') }}" placeholder="name@example.com" required autofocus>
-                    <label for="email"><i class="fas fa-envelope text-muted me-2"></i>Email Address</label>
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <form method="POST" action="{{ route('login') }}" class="needs-validation auth-form">
+                        @csrf
+                        <div class="form-floating mb-4">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror custom-input" 
+                                   id="email" name="email" value="{{ old('email') }}" placeholder="name@example.com" required autofocus>
+                            <label for="email"><i class="fas fa-envelope text-muted me-2"></i>Email Address</label>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                <div class="form-floating mb-4">
-                    <input type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" 
-                           id="password" name="password" placeholder="Password" required>
-                    <label for="password"><i class="fas fa-lock text-muted me-2"></i>Password</label>
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                        <div class="form-floating mb-4">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror custom-input" 
+                                   id="password" name="password" placeholder="Password" required>
+                            <label for="password"><i class="fas fa-lock text-muted me-2"></i>Password</label>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label text-muted" for="remember">Remember me</label>
-                    </div>
-                    <a href="#" class="text-primary text-decoration-none small fw-semibold">Forgot Password?</a>
-                </div>
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div class="form-check custom-checkbox">
+                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                <label class="form-check-label text-muted small" for="remember">Remember me</label>
+                            </div>
+                            <a href="#" class="text-primary text-decoration-none small fw-semibold hover-opacity">Forgot Password?</a>
+                        </div>
 
-                <button type="submit" class="btn btn-primary btn-lg w-100 mb-4 shadow-sm fw-bold">
-                    Sign In
-                </button>
-            </form>
-
-            <div class="text-center">
-                <div class="p-3 bg-light rounded-3 border">
-                    <p class="mb-1 text-muted small fw-semibold">Default credentials:</p>
-                    <code class="text-dark">admin@bpa.com / password</code>
+                        <button type="submit" class="btn btn-dark btn-lg w-100 mb-3 shadow-sm rounded-pill fw-bold btn-login position-relative overflow-hidden">
+                            <span>Sign In</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Copyright Footer -->
+    <footer class="login-footer text-center mt-4">
+        <p class="mb-0">&copy; {{ date('Y') }} BPA Asset Management System</p>
+    </footer>
 </div>
 
 <style>
 body {
-    background-color: #f8f9fa;
+    background: #f0f2f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 .login-wrapper {
     min-height: 100vh;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
+    background-size: cover;
+    padding: 2rem;
     display: flex;
-    flex-wrap: wrap;
-    margin: -1.5rem; /* Offset app.blade.php container padding if any */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-.login-side {
-    flex: 1 1 50%;
-    background: linear-gradient(180deg, #0c4a6e 0%, #0ea5e9 30%, #06b6d4 55%, #0891b2 75%, #0d9488 100%);
-    position: relative;
+.login-glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
     overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5) inset;
+    display: flex;
+    flex-direction: column;
 }
-.ocean-bg {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 80%, rgba(0,0,0,0.15) 0%, transparent 50%);
+.login-brand-side {
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+    position: relative;
+    border-radius: 24px 0 0 24px;
 }
-.sun {
-    position: absolute;
-    top: 8%;
-    right: 15%;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, #fbbf24 0%, #f59e0b 40%, transparent 70%);
-    border-radius: 50%;
-    box-shadow: 0 0 60px rgba(251, 191, 36, 0.4), 0 0 120px rgba(251, 191, 36, 0.2);
+.brand-overlay {
+    display: none;
+}
+.z-index-2 {
     z-index: 2;
 }
-.island {
-    position: absolute;
-    bottom: 8%;
-    left: 10%;
-    width: 200px;
-    height: 60px;
-    background:
-        radial-gradient(ellipse at 30% 50%, #65a30d 0%, #4d7c0f 50%, transparent 70%),
-        radial-gradient(ellipse at 70% 60%, #a3e635 0%, #84cc16 40%, transparent 60%);
-    border-radius: 50%;
-    z-index: 3;
-    opacity: 0.6;
-}
-.island::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-bottom: 40px solid #4d7c0f;
-    opacity: 0.5;
-}
-.island::after {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 35%;
-    width: 2px;
-    height: 25px;
-    background: #4d7c0f;
-    opacity: 0.3;
-    transform: rotate(-15deg);
-}
-.waves {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    z-index: 3;
-}
-.waves::before,
-.waves::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -50%;
-    width: 200%;
-    height: 100%;
-    border-radius: 40%;
-    opacity: 0.3;
-    animation: wave 8s linear infinite;
-}
-.waves::before {
-    background: rgba(255,255,255,0.15);
-    animation-duration: 8s;
-}
-.waves::after {
-    background: rgba(255,255,255,0.1);
-    animation-duration: 12s;
-    animation-delay: -4s;
-}
-@keyframes wave {
-    0% { transform: translateX(0) translateY(0) rotate(0deg); }
-    25% { transform: translateX(25%) translateY(-5px) rotate(2deg); }
-    50% { transform: translateX(50%) translateY(0) rotate(0deg); }
-    75% { transform: translateX(25%) translateY(3px) rotate(-2deg); }
-    100% { transform: translateX(0) translateY(0) rotate(0deg); }
-}
-.side-content {
-    position: relative;
-    z-index: 4;
-    max-width: 80%;
-}
 .login-form-side {
-    flex: 1 1 50%;
-    background: #ffffff;
-}
-.login-box {
-    max-width: 500px;
+    border-radius: 0 24px 24px 0;
 }
 .login-logo {
-    max-height: 60px;
+    max-height: 50px;
     width: auto;
     object-fit: contain;
+    transition: transform 0.3s ease;
 }
 .login-logo:hover {
     transform: scale(1.05);
 }
 .logo-placeholder {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }
-.form-floating > .form-control {
-    border-radius: 0.5rem;
-    border: 1px solid #e2e8f0;
-    box-shadow: none;
-    transition: all 0.2s ease;
+.custom-input {
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    border-radius: 0;
+    background: transparent;
+    padding-left: 0;
+    box-shadow: none !important;
+    transition: all 0.3s ease;
 }
-.form-floating > .form-control:focus {
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+.custom-input:focus {
+    border-bottom-color: #0f172a;
+    background: transparent;
+}
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    transform: scale(.85) translateY(-1.5rem) translateX(-0.15rem);
+    color: #0f172a;
+    opacity: 0.8;
 }
 .form-floating > label {
-    color: #64748b;
+    padding-left: 0;
+    color: #94a3b8;
 }
-.btn-primary {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
+.btn-login {
+    background-color: #0f172a;
+    border: none;
+    transition: all 0.3s ease;
+    padding: 14px 24px;
 }
-.btn-primary:hover {
-    background-color: #4338ca;
-    border-color: #4338ca;
+.btn-login:hover {
+    background-color: #1e293b;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2) !important;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2) !important;
 }
+.custom-checkbox .form-check-input:checked {
+    background-color: #0f172a;
+    border-color: #0f172a;
+}
+.hover-opacity {
+    transition: opacity 0.2s;
+    color: #0f172a !important;
+}
+.hover-opacity:hover {
+    opacity: 0.7;
+}
+
+.login-footer {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+}
+
 @media (max-width: 991.98px) {
+    .login-glass-card {
+        border-radius: 20px;
+    }
     .login-form-side {
-        flex: 1 1 100%;
+        border-radius: 20px;
+    }
+    .login-wrapper {
+        padding: 1rem;
     }
 }
 </style>

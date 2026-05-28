@@ -10,7 +10,7 @@
     </a>
 </div>
 
-<form action="{{ route('users.store') }}" method="POST">
+<form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-lg-6">
@@ -19,6 +19,27 @@
                     <i class="fas fa-user me-2"></i> Personal Information
                 </div>
                 <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                            <img src="https://ui-avatars.com/api/?name=New+User&background=0D8ABC&color=fff&size=200" 
+                                 alt="Avatar Preview" 
+                                 class="rounded-circle border border-3 border-light shadow-sm" 
+                                 style="width: 120px; height: 120px; object-fit: cover;" 
+                                 id="avatar-preview">
+                        </div>
+                        <div class="mt-3">
+                            <label for="avatar" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-camera me-1"></i> Choose Avatar
+                            </label>
+                            <input type="file" class="d-none @error('avatar') is-invalid @enderror" 
+                                   id="avatar" name="avatar" accept="image/*" onchange="previewImage(this)">
+                            @error('avatar')
+                                <div class="invalid-feedback d-block mt-2">{{ $message }}</div>
+                            @enderror
+                            <div class="text-muted small mt-1">JPG, PNG, GIF or WEBP. Max 2MB.</div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name *</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -130,3 +151,17 @@
     </div>
 </form>
 @endsection
+
+@push('scripts')
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@endpush

@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -63,9 +64,15 @@ class UserController extends Controller
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
             'role' => ['required', 'in:' . implode(',', User::ROLES)],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
+
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
+        }
 
         $user = User::create($validated);
 
@@ -99,6 +106,7 @@ class UserController extends Controller
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
             'role' => ['required', 'in:' . implode(',', User::ROLES)],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 
         $oldValues = $user->toArray();
@@ -108,6 +116,14 @@ class UserController extends Controller
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
         }
 
         $user->update($validated);
@@ -147,12 +163,9 @@ class UserController extends Controller
         return view('users.profile', compact('user'));
     }
 
-    public function updateProfile(Request $request, User $user)
+    public function updateProfile(Request $request)
     {
-        if ($user->id !== auth()->id()) {
-            return redirect()->route('users.profile')
-                ->with('error', 'You can only update your own profile.');
-        }
+        $user = auth()->user();
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -160,6 +173,7 @@ class UserController extends Controller
             'password' => ['nullable', 'confirmed', Password::defaults()],
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 
         $oldValues = $user->toArray();
@@ -169,6 +183,14 @@ class UserController extends Controller
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar'] = $path;
         }
 
         $user->update($validated);

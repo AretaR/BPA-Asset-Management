@@ -33,6 +33,9 @@
                 <i class="fas fa-user me-2"></i> User Details
             </div>
             <div class="card-body">
+                <div class="text-center mb-4">
+                    <img src="{{ $user->avatar_url }}" alt="Avatar" class="rounded-circle border border-3 border-light shadow-sm" style="width: 120px; height: 120px; object-fit: cover;">
+                </div>
                 <div class="mb-3">
                     <label class="text-muted small">Name</label>
                     <div class="fw-bold">{{ $user->name }}</div>

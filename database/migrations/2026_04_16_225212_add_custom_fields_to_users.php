@@ -12,11 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('employee_id')->nullable()->after('password');
-            $table->unsignedBigInteger('department_id')->nullable()->after('employee_id');
-            $table->string('phone')->nullable()->after('department_id');
-            $table->string('position')->nullable()->after('phone');
-            $table->enum('role', ['admin', 'staff'])->default('staff')->after('position');
+            if (!Schema::hasColumn('users', 'employee_id')) {
+                $table->string('employee_id')->nullable()->after('password');
+            }
+            if (!Schema::hasColumn('users', 'department_id')) {
+                $table->unsignedBigInteger('department_id')->nullable()->after('employee_id');
+            }
+            if (!Schema::hasColumn('users', 'phone')) {
+                $table->string('phone')->nullable()->after('department_id');
+            }
+            if (!Schema::hasColumn('users', 'position')) {
+                $table->string('position')->nullable()->after('phone');
+            }
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->enum('role', ['admin', 'staff'])->default('staff')->after('position');
+            }
         });
     }
 

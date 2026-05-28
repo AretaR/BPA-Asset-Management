@@ -79,9 +79,12 @@
                     @forelse($users as $user)
                     <tr>
                         <td>
-                            <a href="{{ route('users.show', $user) }}">
-                                <strong>{{ $user->name }}</strong>
-                            </a>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ $user->avatar_url }}" alt="Avatar" class="rounded-circle me-2" style="width: 36px; height: 36px; object-fit: cover; border: 1px solid rgba(0,0,0,0.1);">
+                                <a href="{{ route('users.show', $user) }}">
+                                    <strong>{{ $user->name }}</strong>
+                                </a>
+                            </div>
                         </td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->employee_id ?? 'N/A' }}</td>

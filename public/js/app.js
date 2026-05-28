@@ -1,12 +1,45 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
-    const sidebar = document.querySelector('.sidebar');
-    
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('show');
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    if (toggle && sidebar) {
+        toggle.addEventListener('click', function() {
+            if (sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
         });
     }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeSidebar);
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
+    });
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 991.98 && sidebar && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
+    });
 
     setTimeout(function() {
         const alerts = document.querySelectorAll('.alert');

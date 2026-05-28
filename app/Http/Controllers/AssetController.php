@@ -279,6 +279,13 @@ class AssetController extends Controller
 
     public function barcode(string $code)
     {
+        if (ctype_xdigit($code) && strlen($code) % 2 === 0) {
+            $decoded = @hex2bin($code);
+            if ($decoded !== false && filter_var($decoded, FILTER_VALIDATE_URL)) {
+                $code = $decoded;
+            }
+        }
+
         $generator = new BarcodeGeneratorPNG;
         $barcode = $generator->getBarcode($code, $generator::TYPE_CODE_128, 2, 50);
 
@@ -288,16 +295,36 @@ class AssetController extends Controller
         ]);
     }
 
+    public function popup(Asset $asset)
+    {
+        $asset->load(['category', 'department', 'assignedUser', 'movements.fromDepartment', 'movements.toDepartment']);
+        return view('assets.popup', compact('asset'));
+    }
+
     public function scan(Request $request)
     {
         $request->validate(['code' => 'required|string']);
 
         $code = trim($request->code);
+        $asset = null;
 
-        $asset = Asset::where('asset_tag', $code)
-            ->orWhere('serial_number', $code)
-            ->orWhere('id', $code)
-            ->first();
+        if (filter_var($code, FILTER_VALIDATE_URL)) {
+            $path = parse_url($code, PHP_URL_PATH);
+            if (preg_match('/assets\/([^\/]+)/', $path, $matches)) {
+                $identifier = $matches[1];
+                $asset = Asset::where('id', $identifier)
+                    ->orWhere('asset_tag', $identifier)
+                    ->orWhere('serial_number', $identifier)
+                    ->first();
+            }
+        }
+
+        if (!$asset) {
+            $asset = Asset::where('asset_tag', $code)
+                ->orWhere('serial_number', $code)
+                ->orWhere('id', $code)
+                ->first();
+        }
 
         if (! $asset) {
             return response()->json([
@@ -311,7 +338,7 @@ class AssetController extends Controller
             'id' => $asset->id,
             'name' => $asset->name,
             'asset_tag' => $asset->asset_tag,
-            'url' => route('assets.show', $asset),
+            'url' => route('assets.popup', $asset),
         ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\BarcodeService;
+use App\Services\QRCodeService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +19,9 @@ class Asset extends Model
         'name',
         'asset_tag',
         'serial_number',
+        'barcode',
+        'qr_uuid',
+        'qr_code',
         'category_id',
         'department_id',
         'assigned_to',
@@ -58,6 +63,29 @@ class Asset extends Model
             if (empty($asset->asset_tag)) {
                 $asset->asset_tag = self::generateAssetTag();
             }
+            if (empty($asset->qr_uuid)) {
+                $asset->qr_uuid = Str::uuid()->toString();
+            }
+        });
+
+        static::created(function ($asset) {
+            $barcodeService = new BarcodeService();
+            $qrService = new QRCodeService();
+            $updates = [];
+
+            if (empty($asset->barcode)) {
+                $updates['barcode'] = $barcodeService->generateAssetBarcode($asset->id);
+            }
+
+            if (empty($asset->qr_code) && !empty($asset->qr_uuid)) {
+                $publicUrl = $qrService->publicUrl($asset->qr_uuid);
+                $updates['qr_code'] = $qrService->generateSVG($publicUrl, 200);
+            }
+
+            if (!empty($updates)) {
+                $asset->timestamps = false;
+                $asset->updateQuietly($updates);
+            }
         });
     }
 
@@ -94,6 +122,11 @@ class Asset extends Model
     public function movements(): HasMany
     {
         return $this->hasMany(AssetMovement::class);
+    }
+
+    public function scanLogs(): HasMany
+    {
+        return $this->hasMany(ScanLog::class);
     }
 
     public function activityLogs(): HasMany
