@@ -90,13 +90,12 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Barcode</th>
                         <th>Asset Tag</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Department</th>
+                        <th class="d-none d-lg-table-cell">Department</th>
                         <th>Assigned To</th>
-                        <th>Status</th>
+                        <th class="d-none d-sm-table-cell">Status</th>
                         <th>Purchase Cost</th>
                         <th>Actions</th>
                     </tr>
@@ -104,12 +103,6 @@
                 <tbody>
                     @forelse($assets as $asset)
                     <tr>
-                        <td class="text-center">
-                            <a href="{{ route('assets.popup', $asset) }}" target="_blank" title="View Mobile Popup Details">
-                                <img src="{{ route('assets.barcode', bin2hex(route('assets.popup', $asset))) }}" alt="Barcode" class="barcode-hover-zoom" style="height: 30px; width: auto;">
-                            </a>
-                            <br><small class="text-muted" style="font-size: 0.65rem;">{{ $asset->serial_number ?? $asset->asset_tag }}</small>
-                        </td>
                         <td>
                             <a href="{{ route('assets.show', $asset) }}">
                                 <strong>{{ $asset->asset_tag }}</strong>
@@ -117,9 +110,9 @@
                         </td>
                         <td>{{ Str::limit($asset->name, 30) }}</td>
                         <td>{{ $asset->category->name ?? 'N/A' }}</td>
-                        <td>{{ $asset->department->name ?? 'N/A' }}</td>
+                        <td class="d-none d-lg-table-cell">{{ $asset->department->name ?? 'N/A' }}</td>
                         <td>{{ $asset->assignedUser->name ?? 'Unassigned' }}</td>
-                        <td>
+                        <td class="d-none d-sm-table-cell">
                             <span class="badge {{ $asset->status_badge_class }}">
                                 {{ ucfirst($asset->status) }}
                             </span>
@@ -150,7 +143,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="text-center text-muted py-4">
+                        <td colspan="8" class="text-center text-muted py-4">
                             <i class="fas fa-inbox fa-3x mb-3"></i>
                             <p>No assets found. @can('create', \App\Models\Asset::class)<a href="{{ route('assets.create') }}">Create one</a>@endcan</p>
                         </td>

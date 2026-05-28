@@ -23,8 +23,8 @@
                     <tr>
                         <th>Code</th>
                         <th>Name</th>
-                        <th>Manager</th>
-                        <th>Location</th>
+                        <th class="d-none d-md-table-cell">Manager</th>
+                        <th class="d-none d-md-table-cell">Location</th>
                         <th>Assets Count</th>
                         <th>Actions</th>
                     </tr>
@@ -38,8 +38,8 @@
                                 {{ $department->name }}
                             </a>
                         </td>
-                        <td>{{ $department->manager ?? 'N/A' }}</td>
-                        <td>{{ Str::limit($department->location, 30) }}</td>
+                        <td class="d-none d-md-table-cell">{{ $department->manager ?? 'N/A' }}</td>
+                        <td class="d-none d-md-table-cell">{{ Str::limit($department->location, 30) }}</td>
                         <td><span class="badge bg-info">{{ $department->assets_count }}</span></td>
                         <td>
                             <div class="btn-group btn-group-sm">

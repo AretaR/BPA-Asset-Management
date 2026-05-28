@@ -23,8 +23,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Assets Count</th>
-                        <th>Description</th>
-                        <th>Created</th>
+                        <th class="d-none d-sm-table-cell">Description</th>
+                        <th class="d-none d-sm-table-cell">Created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -37,8 +37,8 @@
                             </a>
                         </td>
                         <td><span class="badge bg-info">{{ $category->assets_count }}</span></td>
-                        <td>{{ Str::limit($category->description, 50) }}</td>
-                        <td>{{ $category->created_at->format('M d, Y') }}</td>
+                        <td class="d-none d-sm-table-cell">{{ Str::limit($category->description, 50) }}</td>
+                        <td class="d-none d-sm-table-cell">{{ $category->created_at->format('M d, Y') }}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('categories.show', $category) }}" class="btn btn-outline-primary">

@@ -8,7 +8,6 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -31,8 +30,7 @@ Route::middleware('guest')->group(function () {
 // ─── Public QR Code View (no auth required) ───────────────────────────────────
 Route::get('qr/{uuid}', [QRCodeController::class, 'publicView'])->name('assets.qr-public')->middleware('throttle:15,1');
 
-// ─── Legacy / unprotected barcode lookup (kept for backward compatibility) ────
-Route::get('assets/barcode/{code}', [AssetController::class, 'barcode'])->name('assets.barcode');
+// ─── Public popup view ────────────────────────────────────────────────────────
 Route::get('assets/{asset}/popup', [AssetController::class, 'popup'])->name('assets.popup');
 
 Route::middleware('auth')->group(function () {
@@ -46,15 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('assets', AssetController::class);
     Route::post('assets/{asset}/checkout', [AssetController::class, 'checkout'])->name('assets.checkout');
     Route::post('assets/{asset}/checkin', [AssetController::class, 'checkin'])->name('assets.checkin');
-
-    // ─── Barcodes ─────────────────────────────────────────────────────────────
-    Route::prefix('barcodes')->name('barcodes.')->group(function () {
-        Route::get('{asset}/show',       [BarcodeController::class, 'show'])      ->name('show');
-        Route::get('{asset}/download',   [BarcodeController::class, 'download'])  ->name('download');
-        Route::get('{asset}/svg',        [BarcodeController::class, 'svg'])       ->name('svg');
-        Route::get('{asset}/print',      [BarcodeController::class, 'print'])     ->name('print');
-        Route::post('{asset}/regenerate',[BarcodeController::class, 'regenerate'])->name('regenerate');
-    });
 
     // ─── QR Codes ─────────────────────────────────────────────────────────────
     Route::prefix('qrcodes')->name('qrcodes.')->group(function () {

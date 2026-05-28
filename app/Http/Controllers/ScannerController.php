@@ -17,13 +17,13 @@ class ScannerController extends Controller
     }
 
     /**
-     * AJAX: look up an asset by barcode, QR UUID, serial number, or asset tag.
+     * AJAX: look up an asset by QR UUID, serial number, or asset tag.
      * Returns JSON for the popup modal.
      */
     public function lookup(Request $request)
     {
         $term = trim($request->input('term', ''));
-        $type = $request->input('type', 'barcode'); // barcode | qr_code | serial_number | asset_tag
+        $type = $request->input('type', 'qr_code'); // qr_code | serial_number | asset_tag
 
         if (empty($term)) {
             return response()->json(['error' => 'No scan data provided.'], 422);
@@ -37,11 +37,6 @@ class ScannerController extends Controller
             $asset = Asset::where('serial_number', $term)->first();
         } elseif ($type === 'asset_tag') {
             $asset = Asset::where('asset_tag', $term)->first();
-        } else {
-            // Default: barcode — also try asset_tag as fallback
-            $asset = Asset::where('barcode', $term)
-                ->orWhere('asset_tag', $term)
-                ->first();
         }
 
         if (!$asset) {
@@ -67,7 +62,7 @@ class ScannerController extends Controller
                 'id'              => $asset->id,
                 'name'            => $asset->name,
                 'asset_tag'       => $asset->asset_tag,
-                'barcode'         => $asset->barcode,
+
                 'serial_number'   => $asset->serial_number,
                 'status'          => $asset->status,
                 'status_badge'    => $asset->status_badge_class ?? 'bg-secondary',
@@ -87,7 +82,7 @@ class ScannerController extends Controller
     }
 
     /**
-     * AJAX: quick search by name / barcode / asset_tag / serial_number.
+     * AJAX: quick search by name / asset_tag / serial_number.
      */
     public function search(Request $request)
     {
@@ -100,7 +95,6 @@ class ScannerController extends Controller
             ->where(function ($query) use ($q) {
                 $query->where('name', 'like', "%{$q}%")
                     ->orWhere('asset_tag', 'like', "%{$q}%")
-                    ->orWhere('barcode', 'like', "%{$q}%")
                     ->orWhere('serial_number', 'like', "%{$q}%");
             })
             ->orderBy('name')
@@ -111,7 +105,7 @@ class ScannerController extends Controller
             'id'        => $a->id,
             'name'      => $a->name,
             'asset_tag' => $a->asset_tag,
-            'barcode'   => $a->barcode,
+
             'category'  => optional($a->category)->name,
             'status'    => $a->status,
             'view_url'  => route('assets.show', $a->id),

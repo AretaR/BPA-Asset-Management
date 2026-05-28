@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block">
-                            <img src="https://ui-avatars.com/api/?name=New+User&background=0D8ABC&color=fff&size=200" 
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%230D8ABC'/%3E%3Ctext x='100' y='115' text-anchor='middle' font-family='Arial,sans-serif' font-size='80' font-weight='bold' fill='%23fff'%3EN%3C/text%3E%3C/svg%3E" 
                                  alt="Avatar Preview" 
                                  class="rounded-circle border border-3 border-light shadow-sm" 
                                  style="width: 120px; height: 120px; object-fit: cover;" 

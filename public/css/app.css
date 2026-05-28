@@ -823,16 +823,4 @@ main.container-fluid {
 }
 
 /* ─── BARCODE HOVER EFFECT ─── */
-.barcode-hover-zoom {
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-  padding: 4px;
-  background: white;
-  border: 1px solid var(--border);
-}
 
-.barcode-hover-zoom:hover {
-  transform: scale(1.08);
-  box-shadow: var(--shadow-md);
-}

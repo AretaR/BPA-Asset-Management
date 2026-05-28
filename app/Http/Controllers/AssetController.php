@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
-use Picqer\Barcode\BarcodeGeneratorPNG;
+
 
 class AssetController extends Controller
 {
@@ -277,24 +277,6 @@ class AssetController extends Controller
         return Excel::download(new AssetsExport, $filename.'.xlsx');
     }
 
-    public function barcode(string $code)
-    {
-        if (ctype_xdigit($code) && strlen($code) % 2 === 0) {
-            $decoded = @hex2bin($code);
-            if ($decoded !== false && filter_var($decoded, FILTER_VALIDATE_URL)) {
-                $code = $decoded;
-            }
-        }
-
-        $generator = new BarcodeGeneratorPNG;
-        $barcode = $generator->getBarcode($code, $generator::TYPE_CODE_128, 2, 50);
-
-        return response($barcode, 200, [
-            'Content-Type' => 'image/png',
-            'Cache-Control' => 'public, max-age=86400',
-        ]);
-    }
-
     public function popup(Asset $asset)
     {
         $asset->load(['category', 'department', 'assignedUser', 'movements.fromDepartment', 'movements.toDepartment']);
@@ -329,7 +311,7 @@ class AssetController extends Controller
         if (! $asset) {
             return response()->json([
                 'found' => false,
-                'message' => 'No asset found with that barcode.',
+                'message' => 'No asset found.',
             ]);
         }
 

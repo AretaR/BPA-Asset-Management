@@ -84,8 +84,7 @@ class QRCodeController extends Controller
 
         $url = $this->qrService->publicUrl($asset->qr_uuid);
         $svgQr = $this->qrService->generateSVG($url, 200);
-        $barcodeSvg = app(\App\Services\BarcodeService::class)->generateSVG($asset->barcode ?? 'NO-CODE', 2, 60);
 
-        return view('labels.print', compact('asset', 'svgQr', 'barcodeSvg'));
+        return view('labels.print', compact('asset', 'svgQr'));
     }
 }

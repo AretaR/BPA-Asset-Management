@@ -68,8 +68,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Employee ID</th>
-                        <th>Department</th>
+                        <th class="d-none d-md-table-cell">Employee ID</th>
+                        <th class="d-none d-lg-table-cell">Department</th>
                         <th>Role</th>
                         <th>Assets</th>
                         <th>Actions</th>
@@ -87,8 +87,8 @@
                             </div>
                         </td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->employee_id ?? 'N/A' }}</td>
-                        <td>{{ $user->department->name ?? 'N/A' }}</td>
+                        <td class="d-none d-md-table-cell">{{ $user->employee_id ?? 'N/A' }}</td>
+                        <td class="d-none d-lg-table-cell">{{ $user->department->name ?? 'N/A' }}</td>
                         <td>
                             <span class="badge {{ $user->role_badge_class }}">
                                 {{ ucfirst($user->role) }}

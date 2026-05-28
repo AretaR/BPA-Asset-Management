@@ -127,8 +127,8 @@
 <div class="scanner-hero">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div>
-            <h1><i class="fas fa-barcode me-2"></i>Asset Scanner</h1>
-            <p>Scan a barcode or QR code to look up asset details instantly</p>
+            <h1><i class="fas fa-qrcode me-2"></i>Asset Scanner</h1>
+            <p>Scan a QR code to look up asset details instantly</p>
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('scanner.history') }}" class="btn btn-outline-light btn-sm">
@@ -182,14 +182,14 @@
                 <div class="d-flex gap-2 align-items-center flex-wrap">
                     <small class="text-muted fw-semibold">Scan type:</small>
                     <div class="btn-group btn-group-sm" id="scan-type-group">
-                        <input type="radio" class="btn-check" name="scan_type" id="type-barcode" value="barcode" checked>
-                        <label class="btn btn-outline-primary" for="type-barcode"><i class="fas fa-barcode me-1"></i>Barcode</label>
-
-                        <input type="radio" class="btn-check" name="scan_type" id="type-qr" value="qr_code">
+                        <input type="radio" class="btn-check" name="scan_type" id="type-qr" value="qr_code" checked>
                         <label class="btn btn-outline-info" for="type-qr"><i class="fas fa-qrcode me-1"></i>QR Code</label>
 
                         <input type="radio" class="btn-check" name="scan_type" id="type-serial" value="serial_number">
                         <label class="btn btn-outline-warning" for="type-serial"><i class="fas fa-hashtag me-1"></i>Serial</label>
+
+                        <input type="radio" class="btn-check" name="scan_type" id="type-tag" value="asset_tag">
+                        <label class="btn btn-outline-secondary" for="type-tag"><i class="fas fa-tag me-1"></i>Tag</label>
                     </div>
                 </div>
 
@@ -214,7 +214,7 @@
                 <div class="position-relative">
                     <input type="text" id="manual-input"
                            class="form-control form-control-lg pe-5"
-                           placeholder="Scan barcode or type barcode / serial / asset tag…"
+                           placeholder="Scan or type QR code / serial / asset tag…"
                            autocomplete="off">
                     <button class="btn btn-primary position-absolute end-0 top-0 h-100 px-3 rounded-start-0"
                             onclick="manualLookup()">
@@ -228,7 +228,7 @@
                     </div>
                 </div>
                 <div class="mt-2">
-                    <small class="text-muted">Supports: barcode, asset tag, serial number</small>
+                    <small class="text-muted">Supports: QR code, asset tag, serial number</small>
                 </div>
             </div>
         </div>
@@ -257,7 +257,7 @@
                             <span class="fw-semibold" id="result-asset-tag">—</span>
                         </div>
                         <div class="col-6">
-                            <small class="text-muted d-block">Barcode</small>
+                            <small class="text-muted d-block">Serial #</small>
                             <span class="fw-semibold" id="result-barcode">—</span>
                         </div>
                         <div class="col-6">
@@ -315,7 +315,7 @@ let isScanning = false;
 let scanCooldown = false;
 
 function getScanType() {
-    return document.querySelector('input[name="scan_type"]:checked')?.value ?? 'barcode';
+    return document.querySelector('input[name="scan_type"]:checked')?.value ?? 'qr_code';
 }
 
 function startScanner() {
@@ -422,7 +422,7 @@ function showResult(a) {
 
     document.getElementById('result-name').textContent       = a.name ?? '—';
     document.getElementById('result-asset-tag').textContent  = a.asset_tag ?? '—';
-    document.getElementById('result-barcode').textContent    = a.barcode ?? '—';
+    document.getElementById('result-barcode').textContent    = a.serial_number ?? '—';
     document.getElementById('result-category').textContent   = a.category ?? '—';
     document.getElementById('result-department').textContent = a.department ?? '—';
     document.getElementById('result-assigned').textContent   = a.assigned_to ?? 'Unassigned';
@@ -498,15 +498,15 @@ document.getElementById('manual-input').addEventListener('input', function() {
                         <i class="fas fa-box text-muted"></i>
                         <div class="flex-grow-1 overflow-hidden">
                             <div class="fw-semibold text-truncate">${a.name}</div>
-                            <small class="text-muted">${a.asset_tag} · ${a.category ?? ''} · <span class="text-primary">${a.barcode ?? ''}</span></small>
+                            <small class="text-muted">${a.asset_tag} · ${a.category ?? ''}</small>
                         </div>
                         <span class="badge bg-secondary">${a.status}</span>
                     </div>`;
                 item.addEventListener('click', e => {
                     e.preventDefault();
-                    document.getElementById('manual-input').value = a.barcode ?? a.asset_tag;
+                    document.getElementById('manual-input').value = a.asset_tag;
                     hideSearchResults();
-                    lookupAsset(a.barcode ?? a.asset_tag, 'barcode');
+                    lookupAsset(a.asset_tag, 'asset_tag');
                 });
                 list.appendChild(item);
             });

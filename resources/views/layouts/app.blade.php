@@ -73,7 +73,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('scanner.*') ? 'active' : '' }}" href="{{ route('scanner.index') }}">
-                            <i class="fas fa-barcode"></i> Scanner
+                            <i class="fas fa-qrcode"></i> Scanner
                         </a>
                     </li>
                     @if(auth()->user()->canManageSettings())

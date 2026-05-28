@@ -36,7 +36,7 @@ class ScanLog extends Model
         return match($this->scan_type) {
             'qr_code'       => 'fas fa-qrcode',
             'serial_number' => 'fas fa-hashtag',
-            default         => 'fas fa-barcode',
+            default         => 'fas fa-qrcode',
         };
     }
 
@@ -45,7 +45,7 @@ class ScanLog extends Model
         return match($this->scan_type) {
             'qr_code'       => 'bg-info',
             'serial_number' => 'bg-warning text-dark',
-            default         => 'bg-primary',
+            default         => 'bg-info',
         };
     }
 }

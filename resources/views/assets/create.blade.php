@@ -34,7 +34,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control @error('serial_number') is-invalid @enderror" 
                                        id="serial_number" name="serial_number" value="{{ old('serial_number') }}" placeholder="Scan or type serial number">
-                                <button class="btn btn-outline-primary" type="button" title="Scan barcode" data-bs-toggle="modal" data-bs-target="#scanSerialModal">
+                                <button class="btn btn-outline-primary" type="button" title="Scan QR code" data-bs-toggle="modal" data-bs-target="#scanSerialModal">
                                     <i class="fas fa-camera"></i>
                                 </button>
                             </div>
@@ -230,7 +230,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-2">
-                    <small class="text-muted">Point camera at a barcode</small>
+                    <small class="text-muted">Point camera at a QR code</small>
                 </div>
             </div>
         </div>

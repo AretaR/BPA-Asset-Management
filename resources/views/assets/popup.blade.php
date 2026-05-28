@@ -232,7 +232,7 @@
         </span>
         <h1>{{ $asset->name }}</h1>
         <span class="asset-tag-badge">
-            <i class="fas fa-barcode me-1"></i> {{ $asset->asset_tag }}
+            <i class="fas fa-tag me-1"></i> {{ $asset->asset_tag }}
         </span>
     </div>
 

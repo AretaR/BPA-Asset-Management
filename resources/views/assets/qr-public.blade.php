@@ -107,9 +107,6 @@
 
         .divider { border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 1rem 0; }
 
-        .barcode-section { text-align: center; }
-        .barcode-section img { max-width: 100%; filter: invert(1); border-radius: 4px; }
-
         .footer {
             text-align: center;
             padding: 1rem 1.5rem;
@@ -230,13 +227,7 @@
                 @endif
             </div>
 
-            @if($asset->barcode)
-            <hr class="divider">
-            <div class="barcode-section">
-                <img src="{{ route('barcodes.svg', $asset) }}" alt="{{ $asset->barcode }}" style="height:50px;">
-                <div style="font-size:.7rem;color:rgba(255,255,255,.4);margin-top:.35rem;">{{ $asset->barcode }}</div>
-            </div>
-            @endif
+
         </div>
 
         <div class="footer">

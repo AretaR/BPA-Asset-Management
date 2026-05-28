@@ -8,7 +8,7 @@
         <i class="fas fa-history me-2"></i> Scan History
     </h1>
     <a href="{{ route('scanner.index') }}" class="btn btn-primary btn-sm">
-        <i class="fas fa-barcode me-1"></i> Open Scanner
+        <i class="fas fa-qrcode me-1"></i> Open Scanner
     </a>
 </div>
 
@@ -22,12 +22,12 @@
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th>#</th>
+                        <th class="d-none d-md-table-cell">#</th>
                         <th>Asset</th>
                         <th>Scan Type</th>
                         <th>Scanned By</th>
-                        <th>Device</th>
-                        <th>IP Address</th>
+                        <th class="d-none d-md-table-cell">Device</th>
+                        <th class="d-none d-md-table-cell">IP Address</th>
                         <th>Scanned At</th>
                         <th>Action</th>
                     </tr>
@@ -35,7 +35,7 @@
                 <tbody>
                     @forelse($logs as $log)
                     <tr>
-                        <td class="text-muted">{{ $log->id }}</td>
+                        <td class="text-muted d-none d-md-table-cell">{{ $log->id }}</td>
                         <td>
                             @if($log->asset)
                                 <div class="fw-semibold">{{ $log->asset->name }}</div>
@@ -63,12 +63,12 @@
                                 <small class="text-muted">Public / Guest</small>
                             @endif
                         </td>
-                        <td>
+                        <td class="d-none d-md-table-cell">
                             <small class="text-muted text-truncate d-block" style="max-width:140px;" title="{{ $log->device }}">
                                 {{ Str::limit($log->device, 35) }}
                             </small>
                         </td>
-                        <td><small class="text-muted">{{ $log->ip_address }}</small></td>
+                        <td class="d-none d-md-table-cell"><small class="text-muted">{{ $log->ip_address }}</small></td>
                         <td>
                             <div>{{ $log->scanned_at->format('d M Y') }}</div>
                             <small class="text-muted">{{ $log->scanned_at->format('H:i:s') }}</small>
@@ -85,7 +85,7 @@
                     @empty
                     <tr>
                         <td colspan="8" class="text-center py-5 text-muted">
-                            <i class="fas fa-barcode fa-3x mb-3 d-block opacity-25"></i>
+                            <i class="fas fa-qrcode fa-3x mb-3 d-block opacity-25"></i>
                             No scan records yet. Start scanning assets!
                         </td>
                     </tr>

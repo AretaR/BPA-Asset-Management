@@ -95,14 +95,6 @@
             padding-top: .75rem;
         }
 
-        .barcode-wrap {
-            flex: 1;
-            text-align: center;
-        }
-        .barcode-wrap svg,
-        .barcode-wrap img { max-width: 100%; height: 50px; }
-        .barcode-number { font-size: .6rem; color: #64748b; margin-top: .2rem; letter-spacing: 1px; }
-
         .qr-wrap {
             flex-shrink: 0;
             text-align: center;
@@ -183,21 +175,15 @@
                 @endif
             </div>
 
-            {{-- Barcode + QR Row --}}
-            <div class="codes-row">
-                <div class="barcode-wrap">
-                    @if($asset->barcode)
-                        {!! $barcodeSvg ?? $svg ?? '' !!}
-                        <div class="barcode-number">{{ $asset->barcode }}</div>
-                    @endif
-                </div>
-                @isset($svgQr)
+            {{-- QR Code --}}
+            @isset($svgQr)
+            <div class="text-center border-top pt-3">
                 <div class="qr-wrap">
                     {!! $svgQr !!}
                     <div class="qr-label">Scan QR</div>
                 </div>
-                @endisset
             </div>
+            @endisset
         </div>
 
         {{-- Footer --}}

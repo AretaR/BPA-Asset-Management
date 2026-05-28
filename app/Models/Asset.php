@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\BarcodeService;
 use App\Services\QRCodeService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +18,6 @@ class Asset extends Model
         'name',
         'asset_tag',
         'serial_number',
-        'barcode',
         'qr_uuid',
         'qr_code',
         'category_id',
@@ -69,22 +67,12 @@ class Asset extends Model
         });
 
         static::created(function ($asset) {
-            $barcodeService = new BarcodeService();
             $qrService = new QRCodeService();
-            $updates = [];
-
-            if (empty($asset->barcode)) {
-                $updates['barcode'] = $barcodeService->generateAssetBarcode($asset->id);
-            }
 
             if (empty($asset->qr_code) && !empty($asset->qr_uuid)) {
                 $publicUrl = $qrService->publicUrl($asset->qr_uuid);
-                $updates['qr_code'] = $qrService->generateSVG($publicUrl, 200);
-            }
-
-            if (!empty($updates)) {
                 $asset->timestamps = false;
-                $asset->updateQuietly($updates);
+                $asset->updateQuietly(['qr_code' => $qrService->generateSVG($publicUrl, 200)]);
             }
         });
     }

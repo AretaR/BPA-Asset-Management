@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('position')->nullable()->after('phone');
             }
             if (!Schema::hasColumn('users', 'role')) {
-                $table->enum('role', ['admin', 'staff'])->default('staff')->after('position');
+                $table->string('role')->default('staff')->after('position');
             }
         });
     }

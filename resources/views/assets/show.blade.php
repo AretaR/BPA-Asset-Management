@@ -43,41 +43,6 @@
         </div>
         @endif
 
-        {{-- ── Barcode Card ─────────────────────────────────────────────── --}}
-        <div class="card mb-4">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <span><i class="fas fa-barcode me-2"></i> Barcode</span>
-                @can('update', $asset)
-                <button class="btn btn-xs btn-outline-secondary btn-sm py-0 px-2"
-                        data-bs-toggle="modal" data-bs-target="#regenerateBarcodeModal"
-                        title="Edit barcode">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                @endcan
-            </div>
-            <div class="card-body text-center">
-                @if($asset->barcode)
-                    <img src="{{ route('barcodes.svg', $asset) }}"
-                         alt="{{ $asset->barcode }}"
-                         class="img-fluid barcode-hover-zoom"
-                         style="max-height:70px; filter: var(--barcode-filter, none);">
-                    <p class="text-muted small mt-2 mb-3 fw-semibold tracking-wide">{{ $asset->barcode }}</p>
-                @else
-                    <div class="text-muted py-3"><i class="fas fa-exclamation-triangle me-1"></i> No barcode yet</div>
-                @endif
-                <div class="d-flex gap-2 justify-content-center">
-                    <a href="{{ route('barcodes.print', $asset) }}" target="_blank"
-                       class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-print me-1"></i> Print Label
-                    </a>
-                    <a href="{{ route('barcodes.download', $asset) }}"
-                       class="btn btn-sm btn-outline-secondary">
-                        <i class="fas fa-download me-1"></i> PNG
-                    </a>
-                </div>
-            </div>
-        </div>
-
         {{-- ── QR Code Card ─────────────────────────────────────────────── --}}
         @if($asset->qr_uuid)
         <div class="card mb-4">
@@ -132,10 +97,6 @@
                     <div class="col-md-6">
                         <label class="text-muted small">Status</label>
                         <div><span class="badge {{ $asset->status_badge_class }}">{{ ucfirst($asset->status) }}</span></div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="text-muted small">Barcode</label>
-                        <div class="fw-semibold">{{ $asset->barcode ?? 'N/A' }}</div>
                     </div>
                     <div class="col-md-6">
                         <label class="text-muted small">Serial Number</label>
@@ -291,30 +252,4 @@
     </div>
 </div>
 
-{{-- ── Regenerate Barcode Modal ──────────────────────────────────────────── --}}
-<div class="modal fade" id="regenerateBarcodeModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title"><i class="fas fa-barcode me-2 text-primary"></i> Edit Barcode</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form method="POST" action="{{ route('barcodes.regenerate', $asset) }}">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Custom Barcode (leave blank to auto-generate)</label>
-                        <input type="text" name="barcode" class="form-control"
-                               value="{{ $asset->barcode }}"
-                               placeholder="e.g. BPA-2026-00001">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Barcode</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection

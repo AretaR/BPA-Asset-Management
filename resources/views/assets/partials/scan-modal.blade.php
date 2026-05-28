@@ -35,7 +35,7 @@
                             <div class="mb-3">
                                 <label class="form-label fw-semibold small"><i class="fas fa-keyboard me-1"></i> Manual Lookup</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" id="scan-modal-manual-input" class="form-control" placeholder="Type barcode / tag / serial..." autocomplete="off">
+                                    <input type="text" id="scan-modal-manual-input" class="form-control" placeholder="Type code / tag / serial..." autocomplete="off">
                                     <button class="btn btn-primary" type="button" onclick="scanModalLookup()"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
@@ -50,7 +50,6 @@
                                 </div>
                                 <table class="table table-sm small mb-2">
                                     <tr><td class="text-muted">Tag</td><td class="fw-semibold" id="scan-modal-result-tag">—</td></tr>
-                                    <tr><td class="text-muted">Barcode</td><td class="fw-semibold" id="scan-modal-result-barcode">—</td></tr>
                                     <tr><td class="text-muted">Category</td><td id="scan-modal-result-category">—</td></tr>
                                     <tr><td class="text-muted">Department</td><td id="scan-modal-result-dept">—</td></tr>
                                     <tr><td class="text-muted">Assigned To</td><td id="scan-modal-result-assigned">—</td></tr>
@@ -152,7 +151,7 @@ function scanModalProcessScan(code) {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
             'Accept': 'application/json',
         },
-        body: JSON.stringify({ term: code, type: 'barcode' }),
+        body: JSON.stringify({ term: code, type: 'qr_code' }),
     })
     .then(r => r.json())
     .then(data => {
@@ -177,7 +176,7 @@ function scanModalShowResult(a) {
 
     document.getElementById('scan-modal-result-name').textContent = a.name || '—';
     document.getElementById('scan-modal-result-tag').textContent = a.asset_tag || '—';
-    document.getElementById('scan-modal-result-barcode').textContent = a.barcode || '—';
+
     document.getElementById('scan-modal-result-category').textContent = a.category || '—';
     document.getElementById('scan-modal-result-dept').textContent = a.department || '—';
     document.getElementById('scan-modal-result-assigned').textContent = a.assigned_to || 'Unassigned';
