@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Schema;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
+
+    protected static ?bool $rbacTablesAvailable = null;
 
     protected $fillable = [
         'name',
@@ -86,19 +89,32 @@ class User extends Authenticatable
 
     public function hasRole(string $slug): bool
     {
-        return $this->role === $slug || $this->roles()->where('slug', $slug)->exists();
+        if ($this->role === $slug) {
+            return true;
+        }
+
+        if (!$this->rbacTablesAvailable()) {
+            return false;
+        }
+
+        return $this->roles()->where('slug', $slug)->exists();
     }
 
     public function syncAssignedRole(string $slug): void
     {
+        $this->role = $slug;
+        $this->save();
+
+        if (!$this->rbacTablesAvailable()) {
+            return;
+        }
+
         $role = Role::where('slug', $slug)->first();
 
         if (!$role) {
             return;
         }
 
-        $this->role = $slug;
-        $this->save();
         $this->roles()->sync([$role->id]);
     }
 
@@ -106,6 +122,10 @@ class User extends Authenticatable
     {
         if ($this->isSuperAdmin()) {
             return true;
+        }
+
+        if (!$this->rbacTablesAvailable()) {
+            return $this->hasLegacyPermission($slug);
         }
 
         if ($this->permissions()->where('slug', $slug)->exists()) {
@@ -117,6 +137,10 @@ class User extends Authenticatable
 
     public function getAllPermissionsAttribute()
     {
+        if (!$this->rbacTablesAvailable()) {
+            return collect();
+        }
+
         return $this->roles->flatMap->permissions->merge($this->permissions)->unique('id');
     }
 
@@ -168,6 +192,40 @@ class User extends Authenticatable
     public function canManageRbac(): bool
     {
         return $this->hasRole(self::ROLE_SUPER_ADMIN);
+    }
+
+    protected function rbacTablesAvailable(): bool
+    {
+        if (self::$rbacTablesAvailable !== null) {
+            return self::$rbacTablesAvailable;
+        }
+
+        try {
+            self::$rbacTablesAvailable = Schema::hasTable('roles')
+                && Schema::hasTable('permissions')
+                && Schema::hasTable('role_user')
+                && Schema::hasTable('permission_role')
+                && Schema::hasTable('permission_user');
+        } catch (\Throwable) {
+            self::$rbacTablesAvailable = false;
+        }
+
+        return self::$rbacTablesAvailable;
+    }
+
+    protected function hasLegacyPermission(string $slug): bool
+    {
+        if ($this->isAdmin()) {
+            return !in_array($slug, ['roles.view', 'roles.create', 'roles.edit', 'roles.delete', 'permissions.view', 'permissions.assign'], true);
+        }
+
+        return in_array($slug, [
+            'assets.view',
+            'categories.view',
+            'departments.view',
+            'reports.view',
+            'scanner.access',
+        ], true);
     }
 
     public function getRoleBadgeClassAttribute(): string
