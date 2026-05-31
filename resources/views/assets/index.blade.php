@@ -5,10 +5,12 @@
     <h1 class="page-header mb-0">
         <i class="fas fa-boxes me-2"></i> Assets
     </h1>
-        <div>
+    <div>
+        @if(auth()->user()->hasPermissionTo('scanner.access'))
         <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#scanModal" title="Scan Barcode">
             <i class="fas fa-camera me-1"></i> Scan
         </button>
+        @endif
         @can('create', \App\Models\Asset::class)
         <a href="{{ route('assets.create') }}" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i> Add New Asset
@@ -76,6 +78,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span><i class="fas fa-list me-2"></i> All Assets ({{ $assets->total() }})</span>
+        @if(auth()->user()->hasPermissionTo('assets.view'))
         <div class="btn-group">
             <a href="{{ route('assets.export', array_merge(request()->all(), ['format' => 'xlsx'])) }}" class="btn btn-sm btn-success">
                 <i class="fas fa-file-excel me-1"></i> Excel
@@ -84,6 +87,7 @@
                 <i class="fas fa-file-pdf me-1"></i> PDF
             </a>
         </div>
+        @endif
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -126,7 +130,7 @@
                                 {{ ucfirst($asset->status) }}
                             </span>
                         </td>
-                        <td>${{ number_format($asset->purchase_cost, 2) }}</td>
+                        <td>${{ number_format((float) ($asset->purchase_cost ?? 0), 2) }}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('assets.show', $asset) }}" class="btn btn-outline-primary" title="View">
@@ -166,5 +170,7 @@
         </div>
     </div>
 </div>
+@if(auth()->user()->hasPermissionTo('scanner.access'))
 @include('assets.partials.scan-modal')
+@endif
 @endsection
