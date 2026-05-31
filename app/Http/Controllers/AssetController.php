@@ -18,13 +18,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Asset::class, 'asset');
-    }
-
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Asset::class);
+
         $query = Asset::with(['category', 'department', 'assignedUser']);
 
         if ($request->has('search') && $request->search) {
@@ -63,6 +60,8 @@ class AssetController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Asset::class);
+
         $categories = Category::all();
         $departments = Department::all();
         $users = User::all();
@@ -78,6 +77,8 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Asset::class);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'serial_number' => ['nullable', 'string', 'max:255'],
@@ -117,6 +118,8 @@ class AssetController extends Controller
 
     public function show(Asset $asset)
     {
+        $this->authorize('view', $asset);
+
         $asset->load(['category', 'department', 'assignedUser', 'movements.fromDepartment', 'movements.toDepartment']);
 
         return view('assets.show', compact('asset'));
@@ -124,6 +127,8 @@ class AssetController extends Controller
 
     public function edit(Asset $asset)
     {
+        $this->authorize('update', $asset);
+
         $categories = Category::all();
         $departments = Department::all();
         $users = User::all();
@@ -140,6 +145,8 @@ class AssetController extends Controller
 
     public function update(Request $request, Asset $asset)
     {
+        $this->authorize('update', $asset);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'serial_number' => ['nullable', 'string', 'max:255'],
@@ -186,6 +193,8 @@ class AssetController extends Controller
 
     public function destroy(Asset $asset)
     {
+        $this->authorize('delete', $asset);
+
         $oldValues = $asset->toArray();
 
         if ($asset->image) {
