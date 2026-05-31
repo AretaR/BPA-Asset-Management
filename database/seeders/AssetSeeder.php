@@ -86,24 +86,26 @@ class AssetSeeder extends Seeder
         foreach ($assets as $index => $assetData) {
             $category = $categories->random();
             $department = $departments->random();
-            $assignedTo = $assetData['status'] === 'assigned' ? $users->random()->id : null;
+            $assignedTo = $assetData['status'] === 'assigned' ? ($users->isNotEmpty() ? $users->random()->id : null) : null;
 
-            Asset::create([
-                'name' => $assetData['name'],
-                'asset_tag' => Asset::generateAssetTag(),
-                'serial_number' => $assetData['serial_number'],
-                'category_id' => $category->id,
-                'department_id' => $department->id,
-                'assigned_to' => $assignedTo,
-                'purchase_date' => now()->subDays(rand(30, 365)),
-                'purchase_cost' => $assetData['purchase_cost'],
-                'status' => $assetData['status'],
-                'location' => $department->location,
-                'description' => 'Sample asset for testing purposes',
-                'warranty_expiry' => now()->addDays(rand(180, 730)),
-                'manufacturer' => $assetData['manufacturer'],
-                'model' => $assetData['model'],
-            ]);
+            Asset::updateOrCreate(
+                ['serial_number' => $assetData['serial_number']],
+                [
+                    'name' => $assetData['name'],
+                    'asset_tag' => Asset::generateAssetTag(),
+                    'category_id' => $category->id,
+                    'department_id' => $department->id,
+                    'assigned_to' => $assignedTo,
+                    'purchase_date' => now()->subDays(rand(30, 365)),
+                    'purchase_cost' => $assetData['purchase_cost'],
+                    'status' => $assetData['status'],
+                    'location' => $department->location,
+                    'description' => 'Sample asset for testing purposes',
+                    'warranty_expiry' => now()->addDays(rand(180, 730)),
+                    'manufacturer' => $assetData['manufacturer'],
+                    'model' => $assetData['model'],
+                ]
+            );
         }
     }
 }
