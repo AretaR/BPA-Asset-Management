@@ -97,7 +97,11 @@ class User extends Authenticatable
             return false;
         }
 
-        return $this->roles()->where('slug', $slug)->exists();
+        try {
+            return $this->roles()->where('slug', $slug)->exists();
+        } catch (\Throwable) {
+            return false;
+        }
     }
 
     public function syncAssignedRole(string $slug): void
@@ -109,13 +113,17 @@ class User extends Authenticatable
             return;
         }
 
-        $role = Role::where('slug', $slug)->first();
+        try {
+            $role = Role::where('slug', $slug)->first();
 
-        if (!$role) {
-            return;
+            if (!$role) {
+                return;
+            }
+
+            $this->roles()->sync([$role->id]);
+        } catch (\Throwable) {
+            // Silently fail if RBAC tables are unavailable
         }
-
-        $this->roles()->sync([$role->id]);
     }
 
     public function hasPermissionTo(string $slug): bool
@@ -128,11 +136,15 @@ class User extends Authenticatable
             return $this->hasLegacyPermission($slug);
         }
 
-        if ($this->permissions()->where('slug', $slug)->exists()) {
-            return true;
-        }
+        try {
+            if ($this->permissions()->where('slug', $slug)->exists()) {
+                return true;
+            }
 
-        return $this->roles()->whereHas('permissions', fn ($q) => $q->where('slug', $slug))->exists();
+            return $this->roles()->whereHas('permissions', fn ($q) => $q->where('slug', $slug))->exists();
+        } catch (\Throwable) {
+            return $this->hasLegacyPermission($slug);
+        }
     }
 
     public function getAllPermissionsAttribute()
@@ -141,7 +153,11 @@ class User extends Authenticatable
             return collect();
         }
 
-        return $this->roles->flatMap->permissions->merge($this->permissions)->unique('id');
+        try {
+            return $this->roles->flatMap->permissions->merge($this->permissions)->unique('id');
+        } catch (\Throwable) {
+            return collect();
+        }
     }
 
     public function canAccessAdmin(): bool
