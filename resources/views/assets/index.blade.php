@@ -114,8 +114,8 @@
                             </a>
                         </td>
                         <td class="d-none d-sm-table-cell">
-                            @if($asset->image)
-                                <img src="{{ asset('storage/' . $asset->image) }}" alt=""
+                            @if($asset->image_url)
+                                <img src="{{ $asset->image_url }}" alt="{{ $asset->name }}"
                                      class="rounded" style="width:36px;height:36px;object-fit:cover;">
                             @else
                                 <span class="text-muted"><i class="fas fa-image fa-lg"></i></span>

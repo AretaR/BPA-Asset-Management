@@ -12,6 +12,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ScannerController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -34,6 +35,7 @@ Route::get('qr/{uuid}', [QRCodeController::class, 'publicView'])->name('assets.q
 
 // ─── Public popup view ────────────────────────────────────────────────────────
 Route::get('assets/{asset}/popup', [AssetController::class, 'popup'])->name('assets.popup');
+Route::get('media/{path}', [MediaController::class, 'show'])->where('path', '.*')->name('media.public');
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

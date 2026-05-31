@@ -75,7 +75,7 @@ class ScannerController extends Controller
                 'purchase_date'   => $asset->purchase_date?->format('d M Y'),
                 'purchase_cost'   => $asset->purchase_cost ? number_format($asset->purchase_cost, 2) : null,
                 'warranty_expiry' => $asset->warranty_expiry?->format('d M Y'),
-                'image'           => $asset->image ? asset('storage/' . $asset->image) : null,
+                'image'           => $asset->image_url,
                 'view_url'        => route('assets.show', $asset->id),
             ],
         ]);

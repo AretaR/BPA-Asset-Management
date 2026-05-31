@@ -191,9 +191,9 @@
                     <i class="fas fa-image me-2"></i> Asset Image
                 </div>
                 <div class="card-body">
-                    @if($asset->image)
+                    @if($asset->image_url)
                     <div class="mb-3 text-center">
-                        <img src="{{ Storage::url($asset->image) }}" alt="{{ $asset->name }}" class="img-thumbnail mb-3" style="max-height: 200px;">
+                        <img src="{{ $asset->image_url }}" alt="{{ $asset->name }}" class="img-thumbnail mb-3" style="max-height: 200px;">
                     </div>
                     @endif
                     <div class="mb-3">

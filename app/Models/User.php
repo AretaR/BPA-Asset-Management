@@ -251,7 +251,10 @@ class User extends Authenticatable
     public function getAvatarUrlAttribute(): string
     {
         if ($this->avatar) {
-            return asset('storage/' . $this->avatar);
+            $path = ltrim((string) $this->avatar, '/');
+            $path = preg_replace('#^storage/#', '', $path);
+
+            return route('media.public', ['path' => $path]);
         }
 
         // Generate a local SVG initials avatar — no external dependencies

@@ -63,7 +63,10 @@ class Setting extends Model
             return $logo;
         }
 
-        return \Illuminate\Support\Facades\Storage::url($logo);
+        $path = ltrim((string) $logo, '/');
+        $path = preg_replace('#^storage/#', '', $path);
+
+        return route('media.public', ['path' => $path]);
     }
 
     public static function companyAddress(): ?string

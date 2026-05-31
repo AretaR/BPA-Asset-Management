@@ -9,6 +9,7 @@ use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -38,7 +39,7 @@ class UserController extends Controller
 
         $users = $query->latest()->paginate(15);
         $departments = Department::all();
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::availableOptions();
 
         return view('users.index', compact(
             'users',
@@ -52,13 +53,15 @@ class UserController extends Controller
         $this->authorize('create', User::class);
 
         $departments = Department::all();
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::availableOptions();
         return view('users.create', compact('departments', 'roles'));
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
+
+        $roleSlugs = Role::availableOptions()->pluck('slug')->all();
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -68,7 +71,7 @@ class UserController extends Controller
             'department_id' => ['nullable', 'exists:departments,id'],
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'exists:roles,slug'],
+            'role' => ['required', Rule::in($roleSlugs)],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 
@@ -106,13 +109,15 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $departments = Department::all();
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::availableOptions();
         return view('users.edit', compact('user', 'departments', 'roles'));
     }
 
     public function update(Request $request, User $user)
     {
         $this->authorize('update', $user);
+
+        $roleSlugs = Role::availableOptions()->pluck('slug')->all();
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -122,7 +127,7 @@ class UserController extends Controller
             'department_id' => ['nullable', 'exists:departments,id'],
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'exists:roles,slug'],
+            'role' => ['required', Rule::in($roleSlugs)],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 

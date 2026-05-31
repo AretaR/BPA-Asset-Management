@@ -153,6 +153,18 @@ class Asset extends Model
         };
     }
 
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        $path = ltrim((string) $this->image, '/');
+        $path = preg_replace('#^storage/#', '', $path);
+
+        return route('media.public', ['path' => $path]);
+    }
+
     public function getTotalValueAttribute(): float
     {
         return (float) $this->purchase_cost ?? 0;

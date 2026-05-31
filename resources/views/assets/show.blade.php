@@ -33,11 +33,11 @@
     <div class="col-lg-4">
 
         {{-- Asset image --}}
-        @if($asset->image)
+        @if($asset->image_url)
         <div class="card mb-4">
             <div class="card-header"><i class="fas fa-image me-2"></i> Asset Image</div>
             <div class="card-body p-2">
-                <img src="{{ Storage::url($asset->image) }}" alt="{{ $asset->name }}"
+                <img src="{{ $asset->image_url }}" alt="{{ $asset->name }}"
                      class="img-fluid rounded w-100" style="max-height:220px;object-fit:cover;">
             </div>
         </div>

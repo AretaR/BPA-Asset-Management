@@ -237,9 +237,9 @@
     </div>
 
     <div class="popup-body">
-        @if($asset->image)
+        @if($asset->image_url)
             <div class="image-container">
-                <img src="{{ Storage::url($asset->image) }}" alt="{{ $asset->name }}">
+                <img src="{{ $asset->image_url }}" alt="{{ $asset->name }}">
             </div>
         @else
             <div class="image-container">

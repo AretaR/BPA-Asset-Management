@@ -140,8 +140,8 @@
             <p>Scanned via QR Code</p>
         </div>
 
-        @if($asset->image)
-            <img class="asset-image" src="{{ asset('storage/' . $asset->image) }}" alt="{{ $asset->name }}">
+        @if($asset->image_url)
+            <img class="asset-image" src="{{ $asset->image_url }}" alt="{{ $asset->name }}">
         @else
             <div class="asset-image-placeholder">
                 <i class="fas fa-box"></i>
