@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <div class="text-center mb-4">
                         <div class="position-relative d-inline-block">
-                            <img src="{{ auth()->user()->avatar_url }}" 
+                            <img src="{{ $user->avatar_url }}" 
                                  alt="Avatar Preview" 
                                  class="rounded-circle border border-3 border-light shadow-sm" 
                                  style="width: 120px; height: 120px; object-fit: cover;" 
@@ -41,7 +41,7 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name *</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                               id="name" name="name" value="{{ old('name', auth()->user()->name) }}" required>
+                               id="name" name="name" value="{{ old('name', $user->name) }}" required>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -50,7 +50,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address *</label>
                         <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                               id="email" name="email" value="{{ old('email', auth()->user()->email) }}" required>
+                               id="email" name="email" value="{{ old('email', $user->email) }}" required>
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -59,7 +59,7 @@
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone</label>
                         <input type="text" class="form-control @error('phone') is-invalid @enderror" 
-                               id="phone" name="phone" value="{{ old('phone', auth()->user()->phone) }}">
+                               id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
                         @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -68,7 +68,7 @@
                     <div class="mb-3">
                         <label for="position" class="form-label">Position</label>
                         <input type="text" class="form-control @error('position') is-invalid @enderror" 
-                               id="position" name="position" value="{{ old('position', auth()->user()->position) }}">
+                               id="position" name="position" value="{{ old('position', $user->position) }}">
                         @error('position')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -114,10 +114,10 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-boxes me-2"></i> My Assigned Assets ({{ auth()->user()->assets_count }})
+                <i class="fas fa-boxes me-2"></i> My Assigned Assets ({{ $user->assets_count }})
             </div>
             <div class="card-body">
-                @if(auth()->user()->assignedAssets->count() > 0)
+                @if($user->assignedAssets->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -130,7 +130,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(auth()->user()->assignedAssets as $asset)
+                            @foreach($user->assignedAssets as $asset)
                             <tr>
                                 <td><a href="{{ route('assets.show', $asset) }}">{{ $asset->asset_tag }}</a></td>
                                 <td>{{ Str::limit($asset->name, 40) }}</td>

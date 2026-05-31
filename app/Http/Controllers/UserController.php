@@ -185,7 +185,8 @@ class UserController extends Controller
     public function profile()
     {
         $user = auth()->user();
-        $user->load('department', 'assignedAssets.category');
+        $user->load('department', 'assignedAssets.category', 'assignedAssets.department');
+
         return view('users.profile', compact('user'));
     }
 
