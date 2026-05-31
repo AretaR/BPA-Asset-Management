@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Department;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
@@ -12,7 +13,10 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
 
     public function index(Request $request)
     {
@@ -37,7 +41,7 @@ class UserController extends Controller
 
         $users = $query->latest()->paginate(15);
         $departments = Department::all();
-        $roles = User::ROLES;
+        $roles = Role::orderBy('name')->get();
 
         return view('users.index', compact(
             'users',
@@ -49,7 +53,7 @@ class UserController extends Controller
     public function create()
     {
         $departments = Department::all();
-        $roles = User::ROLES;
+        $roles = Role::orderBy('name')->get();
         return view('users.create', compact('departments', 'roles'));
     }
 
@@ -63,9 +67,14 @@ class UserController extends Controller
             'department_id' => ['nullable', 'exists:departments,id'],
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'in:' . implode(',', User::ROLES)],
+            'role' => ['required', 'exists:roles,slug'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
+
+        if ($validated['role'] === User::ROLE_SUPER_ADMIN && !auth()->user()->isSuperAdmin()) {
+            return redirect()->route('users.index')
+                ->with('error', 'Only a Super Admin can create users with the Super Admin role.');
+        }
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -75,6 +84,7 @@ class UserController extends Controller
         }
 
         $user = User::create($validated);
+        $user->syncAssignedRole($validated['role']);
 
         ActivityLog::logAction('created', $user);
 
@@ -91,7 +101,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $departments = Department::all();
-        $roles = User::ROLES;
+        $roles = Role::orderBy('name')->get();
         return view('users.edit', compact('user', 'departments', 'roles'));
     }
 
@@ -105,9 +115,24 @@ class UserController extends Controller
             'department_id' => ['nullable', 'exists:departments,id'],
             'phone' => ['nullable', 'string', 'max:50'],
             'position' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'in:' . implode(',', User::ROLES)],
+            'role' => ['required', 'exists:roles,slug'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
+
+        if ($validated['role'] === User::ROLE_SUPER_ADMIN && !auth()->user()->isSuperAdmin()) {
+            return redirect()->route('users.index')
+                ->with('error', 'Only a Super Admin can assign the Super Admin role.');
+        }
+
+        if ($user->isSuperAdmin() && !auth()->user()->isSuperAdmin()) {
+            return redirect()->route('users.index')
+                ->with('error', 'Only a Super Admin can modify another Super Admin.');
+        }
+
+        if ($user->isSuperAdmin() && $validated['role'] !== User::ROLE_SUPER_ADMIN && auth()->id() === $user->id) {
+            return redirect()->route('users.index')
+                ->with('error', 'You cannot remove your own Super Admin role.');
+        }
 
         $oldValues = $user->toArray();
         unset($oldValues['password']);
@@ -127,6 +152,7 @@ class UserController extends Controller
         }
 
         $user->update($validated);
+        $user->syncAssignedRole($validated['role']);
 
         ActivityLog::logAction('updated', $user, $oldValues, $validated);
 

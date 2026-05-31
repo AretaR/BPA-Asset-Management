@@ -35,6 +35,16 @@
                         <i class="fas fa-envelope me-2"></i> Email Settings
                         <small class="text-muted d-block">Configure email notifications and SMTP settings</small>
                     </a>
+                    @if(auth()->user()->canManageRbac())
+                    <a href="{{ route('roles.index') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-user-shield me-2"></i> Role Management
+                        <small class="text-muted d-block">Manage roles and assign permissions</small>
+                    </a>
+                    <a href="{{ route('permissions.index') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-key me-2"></i> Permission Management
+                        <small class="text-muted d-block">Manage available permissions for RBAC</small>
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>

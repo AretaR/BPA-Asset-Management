@@ -12,26 +12,26 @@ class CategoryPolicy
 
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo('categories.view');
     }
 
     public function view(User $user, Category $category): bool
     {
-        return true;
+        return $user->hasPermissionTo('categories.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->canManageAssets();
+        return $user->hasPermissionTo('categories.create');
     }
 
     public function update(User $user, Category $category): bool
     {
-        return $user->canManageAssets();
+        return $user->hasPermissionTo('categories.edit');
     }
 
     public function delete(User $user, Category $category): bool
     {
-        return $user->canManageAssets() && $category->assets()->count() === 0;
+        return $user->hasPermissionTo('categories.delete') && $category->assets()->count() === 0;
     }
 }

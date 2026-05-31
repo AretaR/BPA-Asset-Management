@@ -62,7 +62,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="text-muted small">Role</label>
-                    <div><span class="badge {{ $user->role_badge_class }}">{{ ucfirst($user->role) }}</span></div>
+                    <div><span class="badge {{ $user->role_badge_class }}">{{ $user->role_display_name }}</span></div>
                 </div>
                 <div class="mb-3">
                     <label class="text-muted small">Assigned Assets</label>

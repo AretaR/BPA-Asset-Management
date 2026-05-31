@@ -11,7 +11,7 @@ class UserPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->canManageUsers();
+        return $user->hasPermissionTo('users.view');
     }
 
     public function view(User $user, User $model): bool
@@ -19,12 +19,13 @@ class UserPolicy
         if ($user->id === $model->id) {
             return true;
         }
-        return $user->canManageUsers();
+
+        return $user->hasPermissionTo('users.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->canManageUsers();
+        return $user->hasPermissionTo('users.create');
     }
 
     public function update(User $user, User $model): bool
@@ -32,7 +33,8 @@ class UserPolicy
         if ($user->id === $model->id) {
             return true;
         }
-        return $user->canManageUsers();
+
+        return $user->hasPermissionTo('users.edit');
     }
 
     public function delete(User $user, User $model): bool
@@ -40,6 +42,6 @@ class UserPolicy
         if ($user->id === $model->id) {
             return false;
         }
-        return $user->canManageUsers() && $model->assignedAssets()->count() === 0;
+        return $user->hasPermissionTo('users.delete') && $model->assignedAssets()->count() === 0;
     }
 }

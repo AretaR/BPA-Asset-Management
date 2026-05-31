@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,10 +39,12 @@ class User extends Authenticatable
         ];
     }
 
+    public const ROLE_SUPER_ADMIN = 'super_admin';
     public const ROLE_ADMIN = 'admin';
     public const ROLE_STAFF = 'staff';
 
     public const ROLES = [
+        self::ROLE_SUPER_ADMIN,
         self::ROLE_ADMIN,
         self::ROLE_STAFF,
     ];
@@ -56,9 +59,24 @@ class User extends Authenticatable
         return $this->hasMany(Asset::class, 'assigned_to');
     }
 
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user');
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'permission_user');
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUPER_ADMIN;
+    }
+
     public function isAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMIN;
+        return $this->role === self::ROLE_ADMIN || $this->isSuperAdmin();
     }
 
     public function isStaff(): bool
@@ -66,43 +84,105 @@ class User extends Authenticatable
         return $this->role === self::ROLE_STAFF;
     }
 
+    public function hasRole(string $slug): bool
+    {
+        return $this->role === $slug || $this->roles()->where('slug', $slug)->exists();
+    }
+
+    public function syncAssignedRole(string $slug): void
+    {
+        $role = Role::where('slug', $slug)->first();
+
+        if (!$role) {
+            return;
+        }
+
+        $this->role = $slug;
+        $this->save();
+        $this->roles()->sync([$role->id]);
+    }
+
+    public function hasPermissionTo(string $slug): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($this->permissions()->where('slug', $slug)->exists()) {
+            return true;
+        }
+
+        return $this->roles()->whereHas('permissions', fn ($q) => $q->where('slug', $slug))->exists();
+    }
+
+    public function getAllPermissionsAttribute()
+    {
+        return $this->roles->flatMap->permissions->merge($this->permissions)->unique('id');
+    }
+
     public function canAccessAdmin(): bool
     {
-        return $this->isAdmin();
+        return $this->canManageUsers()
+            || $this->canManageAssets()
+            || $this->canAssignAssets()
+            || $this->canViewReports()
+            || $this->canManageSettings();
     }
 
     public function canManageAssets(): bool
     {
-        return $this->isAdmin();
+        return $this->hasPermissionTo('assets.create')
+            || $this->hasPermissionTo('assets.edit')
+            || $this->hasPermissionTo('assets.delete')
+            || $this->hasPermissionTo('categories.create')
+            || $this->hasPermissionTo('categories.edit')
+            || $this->hasPermissionTo('categories.delete')
+            || $this->hasPermissionTo('departments.create')
+            || $this->hasPermissionTo('departments.edit')
+            || $this->hasPermissionTo('departments.delete');
     }
 
     public function canManageUsers(): bool
     {
-        return $this->isAdmin();
+        return $this->hasPermissionTo('users.view')
+            || $this->hasPermissionTo('users.create')
+            || $this->hasPermissionTo('users.edit')
+            || $this->hasPermissionTo('users.delete');
     }
 
     public function canAssignAssets(): bool
     {
-        return $this->isAdmin();
+        return $this->hasPermissionTo('assets.checkout') || $this->hasPermissionTo('assets.checkin');
     }
 
     public function canViewReports(): bool
     {
-        return $this->isAdmin();
+        return $this->hasPermissionTo('reports.view');
     }
 
     public function canManageSettings(): bool
     {
-        return $this->isAdmin();
+        return $this->hasPermissionTo('settings.manage');
+    }
+
+    public function canManageRbac(): bool
+    {
+        return $this->hasRole(self::ROLE_SUPER_ADMIN);
     }
 
     public function getRoleBadgeClassAttribute(): string
     {
         return match($this->role) {
+            self::ROLE_SUPER_ADMIN => 'bg-dark',
             self::ROLE_ADMIN => 'bg-danger',
             self::ROLE_STAFF => 'bg-info',
             default => 'bg-secondary',
         };
+    }
+
+    public function getRoleDisplayNameAttribute(): string
+    {
+        return str($this->role)->replace('_', ' ')->title();
     }
 
     public function getAssetsCountAttribute(): int

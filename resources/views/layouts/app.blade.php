@@ -46,36 +46,60 @@
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
                     </li>
+                    @can('viewAny', \App\Models\Asset::class)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('assets.*') ? 'active' : '' }}" href="{{ route('assets.index') }}">
                             <i class="fas fa-boxes"></i> Assets
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \App\Models\Category::class)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
                             <i class="fas fa-tags"></i> Categories
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \App\Models\Department::class)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('departments.*') ? 'active' : '' }}" href="{{ route('departments.index') }}">
                             <i class="fas fa-building"></i> Departments
                         </a>
                     </li>
+                    @endcan
+                    @can('viewAny', \App\Models\User::class)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                             <i class="fas fa-users"></i> Users
                         </a>
                     </li>
+                    @endcan
+                    @if(auth()->user()->canManageRbac())
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
+                            <i class="fas fa-user-shield"></i> Roles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('permissions.*') ? 'active' : '' }}" href="{{ route('permissions.index') }}">
+                            <i class="fas fa-key"></i> Permissions
+                        </a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->canViewReports())
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.index') }}">
                             <i class="fas fa-chart-bar"></i> Reports
                         </a>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('scanner.access'))
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('scanner.*') ? 'active' : '' }}" href="{{ route('scanner.index') }}">
                             <i class="fas fa-qrcode"></i> Scanner
                         </a>
                     </li>
+                    @endif
                     @if(auth()->user()->canManageSettings())
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('settings.*') ? 'active' : '' }}" href="{{ route('settings.index') }}">

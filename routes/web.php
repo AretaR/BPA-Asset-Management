@@ -6,6 +6,8 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\QRCodeController;
@@ -59,11 +61,13 @@ Route::middleware('auth')->group(function () {
         Route::get('history',  [ScannerController::class, 'history'])->name('history');
         Route::post('lookup',  [ScannerController::class, 'lookup']) ->name('lookup');
         Route::get('search',   [ScannerController::class, 'search']) ->name('search');
-    });
+    })->middleware('permission:scanner.access');
 
-    // ─── Categories / Departments / Users ─────────────────────────────────────
+    // ─── Categories / Departments ────────────────────────────────────────────
     Route::resource('categories', CategoryController::class);
     Route::resource('departments', DepartmentController::class);
+
+    // ─── Users (admin only) ──────────────────────────────────────────────────
     Route::resource('users', UserController::class);
     Route::get('profile', [UserController::class, 'profile'])->name('users.profile');
     Route::put('profile', [UserController::class, 'updateProfile'])->name('users.updateProfile');
@@ -75,13 +79,21 @@ Route::middleware('auth')->group(function () {
         Route::get('assets-by-status', [ReportController::class, 'assetsByStatus'])->name('assets_by_status');
         Route::get('assets-value', [ReportController::class, 'assetsValue'])->name('assets_value');
         Route::get('activity-logs', [ReportController::class, 'activityLogs'])->name('activity_logs');
+    })->middleware('permission:reports.view');
+
+    // ─── Settings ────────────────────────────────────────────────────────────
+    Route::middleware('permission:settings.manage')->group(function () {
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/', [SettingController::class, 'index'])->name('index');
+            Route::get('general', [SettingController::class, 'general'])->name('general');
+            Route::get('email', [SettingController::class, 'email'])->name('email');
+            Route::post('/', [SettingController::class, 'update'])->name('update');
+        });
     });
 
-    // ─── Settings ─────────────────────────────────────────────────────────────
-    Route::prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', [SettingController::class, 'index'])->name('index');
-        Route::get('general', [SettingController::class, 'general'])->name('general');
-        Route::get('email', [SettingController::class, 'email'])->name('email');
-        Route::post('/', [SettingController::class, 'update'])->name('update');
+    // ─── RBAC Management (super admin only) ──────────────────────────────────
+    Route::middleware('role:super_admin')->group(function () {
+        Route::resource('roles', RoleController::class)->except('show');
+        Route::resource('permissions', PermissionController::class)->except('show');
     });
 });

@@ -12,26 +12,26 @@ class DepartmentPolicy
 
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo('departments.view');
     }
 
     public function view(User $user, Department $department): bool
     {
-        return true;
+        return $user->hasPermissionTo('departments.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->canManageAssets();
+        return $user->hasPermissionTo('departments.create');
     }
 
     public function update(User $user, Department $department): bool
     {
-        return $user->canManageAssets();
+        return $user->hasPermissionTo('departments.edit');
     }
 
     public function delete(User $user, Department $department): bool
     {
-        return $user->canManageAssets() && $department->assets()->count() === 0;
+        return $user->hasPermissionTo('departments.delete') && $department->assets()->count() === 0;
     }
 }

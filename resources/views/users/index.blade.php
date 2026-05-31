@@ -28,8 +28,8 @@
                 <select class="form-select" id="role" name="role">
                     <option value="">All Roles</option>
                     @foreach($roles as $role)
-                        <option value="{{ $role }}" {{ request('role') == $role ? 'selected' : '' }}>
-                            {{ ucfirst($role) }}
+                        <option value="{{ $role->slug }}" {{ request('role') == $role->slug ? 'selected' : '' }}>
+                            {{ $role->name }}
                         </option>
                     @endforeach
                 </select>
@@ -91,7 +91,7 @@
                         <td class="d-none d-lg-table-cell">{{ $user->department->name ?? 'N/A' }}</td>
                         <td>
                             <span class="badge {{ $user->role_badge_class }}">
-                                {{ ucfirst($user->role) }}
+                                {{ $user->role_display_name }}
                             </span>
                         </td>
                         <td><span class="badge bg-info">{{ $user->assets_count }}</span></td>

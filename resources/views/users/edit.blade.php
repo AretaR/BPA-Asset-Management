@@ -115,8 +115,8 @@
                         <label for="role" class="form-label">Role *</label>
                         <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
                             @foreach($roles as $role)
-                                <option value="{{ $role }}" {{ old('role', $user->role) == $role ? 'selected' : '' }}>
-                                    {{ ucfirst($role) }}
+                                <option value="{{ $role->slug }}" {{ old('role', $user->role) == $role->slug ? 'selected' : '' }}>
+                                    {{ $role->name }}
                                 </option>
                             @endforeach
                         </select>

@@ -18,6 +18,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Asset::class, 'asset');
+    }
+
     public function index(Request $request)
     {
         $query = Asset::with(['category', 'department', 'assignedUser']);
@@ -197,6 +202,8 @@ class AssetController extends Controller
 
     public function checkout(Request $request, Asset $asset)
     {
+        $this->authorize('checkout', $asset);
+
         $validated = $request->validate([
             'assigned_to' => ['required', 'exists:users,id'],
             'department_id' => ['nullable', 'exists:departments,id'],
@@ -232,6 +239,8 @@ class AssetController extends Controller
 
     public function checkin(Request $request, Asset $asset)
     {
+        $this->authorize('checkin', $asset);
+
         $validated = $request->validate([
             'notes' => ['nullable', 'string'],
         ]);
@@ -263,6 +272,8 @@ class AssetController extends Controller
 
     public function export(Request $request)
     {
+        $this->authorize('viewAny', Asset::class);
+
         $format = $request->get('format', 'xlsx');
 
         $filename = 'assets_'.date('Y-m-d_H-i-s');
@@ -285,6 +296,8 @@ class AssetController extends Controller
 
     public function scan(Request $request)
     {
+        $this->authorize('viewAny', Asset::class);
+
         $request->validate(['code' => 'required|string']);
 
         $code = trim($request->code);
