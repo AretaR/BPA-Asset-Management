@@ -41,7 +41,7 @@
                             @if($permission->isSystemPermission())
                                 <span class="badge bg-dark">System</span>
                             @else
-                                <span class="badge bg-light text-dark border">Custom</span>
+                                <span class="badge badge-custom">Custom</span>
                             @endif
                         </td>
                         <td>

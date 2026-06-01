@@ -16,35 +16,35 @@
             </div>
             
             <!-- Right Form Side -->
-            <div class="col-lg-7 d-flex align-items-center p-4 p-sm-5 bg-white login-form-side">
+            <div class="col-lg-7 d-flex align-items-center p-4 p-sm-5 login-form-side" style="background: #171f33;">
                 <div class="w-100 px-md-4">
                     <div class="text-center mb-5">
                         @if($logo = \App\Models\Setting::companyLogoSrc())
                             <img src="{{ $logo }}" alt="Logo" class="login-logo mb-4">
                         @else
-                            <div class="logo-placeholder mb-4 mx-auto d-flex align-items-center justify-content-center bg-dark text-white rounded-circle shadow-sm">
+                            <div class="logo-placeholder mb-4 mx-auto d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="background: #38bdf8; color: #00354a; width: 70px; height: 70px;">
                                 <i class="fas fa-building fa-2x"></i>
                             </div>
                         @endif
-                        <h3 class="fw-bold text-dark mb-2">Welcome Back</h3>
-                        <p class="text-muted small">Please sign in to access your dashboard</p>
+                        <h3 class="fw-bold mb-2" style="color: #f8fafc;">Welcome Back</h3>
+                        <p class="small" style="color: #94a3b8;">Please sign in to access your dashboard</p>
                     </div>
 
                     <form method="POST" action="{{ route('login') }}" class="needs-validation auth-form">
                         @csrf
                         <div class="form-floating mb-4">
-                            <input type="email" class="form-control @error('email') is-invalid @enderror custom-input" 
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    id="email" name="email" value="{{ old('email') }}" placeholder="name@example.com" required autofocus>
-                            <label for="email"><i class="fas fa-envelope text-muted me-2"></i>Email Address</label>
+                            <label for="email"><i class="fas fa-envelope me-2" style="color: #6b7280;"></i>Email Address</label>
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-floating mb-4">
-                            <input type="password" class="form-control @error('password') is-invalid @enderror custom-input" 
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
                                    id="password" name="password" placeholder="Password" required>
-                            <label for="password"><i class="fas fa-lock text-muted me-2"></i>Password</label>
+                            <label for="password"><i class="fas fa-lock me-2" style="color: #6b7280;"></i>Password</label>
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -53,12 +53,12 @@
                         <div class="d-flex justify-content-between align-items-center mb-5">
                             <div class="form-check custom-checkbox">
                                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                <label class="form-check-label text-muted small" for="remember">Remember me</label>
+                                <label class="form-check-label" for="remember">Remember me</label>
                             </div>
-                            <a href="#" class="text-primary text-decoration-none small fw-semibold hover-opacity">Forgot Password?</a>
+                            <a href="#" class="forgot-link">Forgot Password?</a>
                         </div>
 
-                        <button type="submit" class="btn btn-dark btn-lg w-100 mb-3 shadow-sm rounded-pill fw-bold btn-login position-relative overflow-hidden">
+                        <button type="submit" class="btn btn-dark btn-lg w-100 mb-3 btn-login position-relative overflow-hidden">
                             <span>Sign In</span>
                         </button>
                     </form>
@@ -91,18 +91,19 @@ body {
     justify-content: center;
 }
 .login-glass-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: #0b1326;
     border-radius: 24px;
     overflow: hidden;
     width: 100%;
     max-width: 1000px;
     min-height: 600px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.5) inset;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    border: 1px solid #1e293b;
     display: flex;
     flex-direction: column;
 }
 .login-brand-side {
-    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+    background: linear-gradient(135deg, #060e20 0%, #0f172a 100%);
     position: relative;
     border-radius: 24px 0 0 24px;
 }
@@ -128,52 +129,81 @@ body {
     width: 70px;
     height: 70px;
 }
-.custom-input {
-    border: none;
-    border-bottom: 2px solid #e2e8f0;
-    border-radius: 0;
-    background: transparent;
-    padding-left: 0;
-    box-shadow: none !important;
-    transition: all 0.3s ease;
+.form-floating > .form-control {
+    height: 56px;
+    padding: 16px 14px 8px;
+    border: 1.5px solid #4b5563;
+    border-radius: 8px;
+    background: #1e293b;
+    color: #f8fafc;
+    font-size: 15px;
+    transition: all 0.2s ease;
 }
-.custom-input:focus {
-    border-bottom-color: #0f172a;
-    background: transparent;
+.form-floating > .form-control:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+    background: #1e293b;
+}
+.form-floating > .form-control::placeholder {
+    color: transparent;
 }
 .form-floating > .form-control:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label {
-    transform: scale(.85) translateY(-1.5rem) translateX(-0.15rem);
-    color: #0f172a;
-    opacity: 0.8;
+    transform: scale(0.82) translateY(-0.6rem) translateX(0.1rem);
+    color: #38bdf8;
+    opacity: 1;
+    font-weight: 600;
 }
 .form-floating > label {
-    padding-left: 0;
+    padding: 14px 14px;
     color: #94a3b8;
+    font-size: 14px;
+}
+.form-floating > .form-control.is-invalid {
+    border-color: #ef4444;
+}
+.form-floating > .form-control.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }
 .btn-login {
-    background-color: #0f172a;
+    background: #38bdf8;
     border: none;
     transition: all 0.3s ease;
     padding: 14px 24px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #00354a;
 }
 .btn-login:hover {
-    background-color: #1e293b;
+    background: #7dd3fc;
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2) !important;
+    box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2) !important;
+    color: #00354a;
 }
 .custom-checkbox .form-check-input:checked {
-    background-color: #0f172a;
-    border-color: #0f172a;
+    background-color: #38bdf8;
+    border-color: #38bdf8;
 }
-.hover-opacity {
+.custom-checkbox .form-check-input {
+    border-color: #4b5563;
+    background: #1e293b;
+}
+.form-check-label {
+    color: #94a3b8;
+    font-size: 13px;
+}
+.forgot-link {
+    color: #38bdf8 !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
     transition: opacity 0.2s;
-    color: #0f172a !important;
 }
-.hover-opacity:hover {
+.forgot-link:hover {
     opacity: 0.7;
+    text-decoration: underline;
 }
-
 .login-footer {
     color: rgba(255, 255, 255, 0.85);
     font-size: 0.8rem;
@@ -181,7 +211,6 @@ body {
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     flex-shrink: 0;
 }
-
 @media (max-width: 991.98px) {
     .login-glass-card {
         border-radius: 20px;

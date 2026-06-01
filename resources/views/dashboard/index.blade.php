@@ -103,7 +103,7 @@
     <div class="col-lg-4 col-md-4">
         <div class="card h-100">
             <div class="card-body metric-card">
-                <div class="metric-icon" style="background: var(--primary-soft); color: var(--primary);">
+                <div class="metric-icon" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8;">
                     <i class="fas fa-dollar-sign"></i>
                 </div>
                 <h5>Total Portfolio Value</h5>
@@ -115,7 +115,7 @@
     <div class="col-lg-4 col-md-4">
         <div class="card h-100">
             <div class="card-body metric-card">
-                <div class="metric-icon" style="background: #F1F5F9; color: #475569;">
+                <div class="metric-icon" style="background: rgba(148, 163, 184, 0.12); color: #94a3b8;">
                     <i class="fas fa-archive"></i>
                 </div>
                 <h5>Retired Assets</h5>
@@ -127,7 +127,7 @@
     <div class="col-lg-4 col-md-4">
         <div class="card h-100">
             <div class="card-body metric-card">
-                <div class="metric-icon" style="background: var(--success-soft); color: #059669;">
+                <div class="metric-icon" style="background: rgba(52, 211, 153, 0.12); color: #34d399;">
                     <i class="fas fa-users"></i>
                 </div>
                 <h5>Total System Users</h5>
@@ -195,7 +195,7 @@
                             @php $badgeColor = str_replace('bg-', '', $statusColorMap[$status] ?? 'bg-secondary'); @endphp
                             <tr>
                                 <td>
-                                    <span class="badge rounded-pill bg-soft-{{ $badgeColor }} px-3 py-2">
+                                    <span class="badge bg-{{ $badgeColor }} px-3 py-2">
                                         {{ ucfirst($status) }}
                                     </span>
                                 </td>
@@ -244,13 +244,13 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <div class="fw-semibold text-dark">{{ $asset->name }}</div>
+                                    <div class="fw-semibold" style="color: var(--text-primary);">{{ $asset->name }}</div>
                                     @if($asset->category)
                                         <small class="text-muted">{{ $asset->category->name }}</small>
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill bg-soft-{{ str_replace('bg-', '', $asset->status_badge_class) }} px-3 py-2">
+                                    <span class="badge {{ $asset->status_badge_class }} px-3 py-2">
                                         {{ ucfirst($asset->status) }}
                                     </span>
                                 </td>
@@ -259,7 +259,7 @@
                             <tr>
                                 <td colspan="3" class="text-center text-muted py-5">
                                     <i class="fas fa-inbox fa-3x mb-3" style="color: var(--border);"></i>
-                                    <p class="mb-0">No recent assets found.</p>
+                                    <p class="mb-0 text-muted">No recent assets found.</p>
                                 </td>
                             </tr>
                             @endforelse
@@ -279,29 +279,29 @@
                 <div class="activity-timeline">
                     @forelse($stats['recent_activities'] as $activity)
                     <div class="timeline-item">
-                        <div class="timeline-icon" style="background: var(--primary-soft); color: var(--primary);">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <div class="timeline-content border-bottom">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <strong class="text-dark">{{ $activity->user->name }}</strong>
-                                <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
+                            <div class="timeline-icon" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8;">
+                                <i class="fas fa-bolt"></i>
                             </div>
-                            <p class="mb-0 text-muted small">
-                                {{ ucfirst($activity->action) }}
-                                @if($activity->model_id)
-                                    @php
-                                        $modelClass = class_basename($activity->model_type);
-                                    @endphp
-                                    <span class="fw-semibold text-dark">{{ $modelClass }} #{{ $activity->model_id }}</span>
-                                @endif
-                            </p>
-                        </div>
+                            <div class="timeline-content border-bottom">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <strong style="color: var(--text-primary);">{{ $activity->user->name }}</strong>
+                                    <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
+                                </div>
+                                <p class="mb-0 text-muted small">
+                                    {{ ucfirst($activity->action) }}
+                                    @if($activity->model_id)
+                                        @php
+                                            $modelClass = class_basename($activity->model_type);
+                                        @endphp
+                                        <span class="fw-semibold" style="color: var(--text-primary);">{{ $modelClass }} #{{ $activity->model_id }}</span>
+                                    @endif
+                                </p>
+                            </div>
                     </div>
                     @empty
                     <div class="text-center text-muted py-5">
                         <i class="fas fa-clipboard-list fa-3x mb-3" style="color: var(--border);"></i>
-                        <p class="mb-0">No recent activity recorded.</p>
+                        <p class="mb-0 text-muted">No recent activity recorded.</p>
                     </div>
                     @endforelse
                 </div>

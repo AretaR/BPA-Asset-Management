@@ -199,7 +199,7 @@ function scanModalShowResult(a) {
 }
 
 function scanModalStatusBg(s) {
-    const map = {available:'bg-success',assigned:'bg-primary',maintenance:'bg-warning text-dark',retired:'bg-danger'};
+    const map = {available:'bg-success',assigned:'bg-primary',maintenance:'bg-warning',retired:'bg-danger'};
     return map[s] || 'bg-secondary';
 }
 

@@ -20,7 +20,7 @@
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle">
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th class="d-none d-md-table-cell">#</th>
                         <th>Asset</th>

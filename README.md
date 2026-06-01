@@ -7,7 +7,8 @@ A comprehensive, production-ready asset management system built with Laravel for
 - **Asset Management**: Full CRUD operations for assets with tracking and history
 - **Category Management**: Organize assets by categories
 - **Department Management**: Manage departments and asset allocation
-- **User Management**: Role-based access control (Admin/Staff)
+- **User Management**: Role-based access control (Super Admin / Admin / Staff)
+- **RBAC (Roles & Permissions)**: Granular access control with management UI
 - **Check-in/Check-out**: Asset assignment and movement tracking
 - **Activity Logs**: Complete audit trail of all system activities
 - **Reports**: Export reports to PDF and Excel
@@ -75,20 +76,14 @@ php artisan migrate
 php artisan db:seed
 ```
 
-### 7. Create Storage Link
-
-```bash
-php artisan storage:link
-```
-
-### 8. Set Permissions (Linux)
+### 7. Set Permissions (Linux)
 
 ```bash
 chmod -R 775 storage bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 ```
 
-### 9. Start the Development Server
+### 8. Start the Development Server
 
 ```bash
 php artisan serve
@@ -96,12 +91,19 @@ php artisan serve
 
 Visit `http://localhost:8000` in your browser.
 
+> ⚠️ `php artisan storage:link` is no longer required — the symlink is created automatically at boot, and the MediaController serves files via the `media/{path}` route instead.
+
 ## Default Login Credentials
 
 After seeding, you can login with:
 
-- **Email**: admin@bpa.com
-- **Password**: password
+| Role | Email | Password |
+|------|-------|----------|
+| **Super Admin** | super_admin@bpa.com | password |
+| **Admin** | admin@bpa.com | password |
+| **Staff** | staff@bpa.com | password |
+
+⚠️ **Change passwords immediately after first login!**
 
 ## For Production Deployment (DirectAdmin/cPanel)
 
@@ -141,30 +143,40 @@ chmod -R 755 public
 
 ```
 ├── app/
-│   ├── Http/Controllers/     # Application controllers
-│   ├── Models/              # Eloquent models
-│   ├── Policies/           # Authorization policies
-│   ├── Exports/            # Excel export classes
-│   └── Providers/          # Service providers
+│   ├── Http/
+│   │   ├── Controllers/     # Application controllers
+│   │   └── Middleware/      # Role & Permission middleware
+│   ├── Models/              # Eloquent models (incl. Role, Permission)
+│   ├── Policies/            # Authorization policies
+│   ├── Exports/             # Excel export classes
+│   └── Providers/           # Service providers
 ├── database/
-│   ├── migrations/         # Database migrations
-│   ├── seeders/            # Database seeders
-│   └── factories/          # Model factories
-├── resources/views/        # Blade templates
-├── routes/                 # Application routes
-├── public/                 # Public assets
-└── storage/                # Storage files
+│   ├── migrations/          # Database migrations
+│   ├── seeders/             # Database seeders
+│   └── factories/           # Model factories
+├── resources/views/
+│   ├── roles/               # RBAC role management views
+│   ├── permissions/         # RBAC permission management views
+│   └── ...                  # Other Blade templates
+├── routes/                  # Application routes
+├── public/                  # Public assets
+└── storage/                 # Storage files
 ```
 
 ## Key Routes
 
-- `/dashboard` - Main dashboard
-- `/assets` - Asset management
-- `/categories` - Category management
-- `/departments` - Department management
-- `/users` - User management (Admin only)
-- `/reports` - Generate reports
-- `/settings` - System settings (Admin only)
+| Route | Description | Access |
+|-------|-------------|--------|
+| `/dashboard` | Main dashboard | Authenticated users |
+| `/assets` | Asset management | Authenticated users |
+| `/categories` | Category management | Admin+ |
+| `/departments` | Department management | Admin+ |
+| `/users` | User management | Admin+ |
+| `/roles` | Role management | Super Admin only |
+| `/permissions` | Permission management | Super Admin only |
+| `/reports` | Generate reports | Authenticated users |
+| `/settings` | System settings | Admin+ |
+| `/media/{path}` | Serve uploaded files | Public |
 
 ## Asset Statuses
 
@@ -175,8 +187,11 @@ chmod -R 755 public
 
 ## User Roles
 
-- **Admin**: Full access to all features
-- **Staff**: View assets and limited management capabilities
+| Role | Level | Description |
+|------|-------|-------------|
+| **Super Admin** | 3 | Full system access, bypasses all authorization, can manage roles & permissions |
+| **Admin** | 2 | Full access to features except RBAC management |
+| **Staff** | 1 | View assets and limited management capabilities |
 
 ## Reports Available
 
@@ -194,10 +209,12 @@ All reports can be exported to:
 ## Security Features
 
 - CSRF Protection
-- Role-based Access Control
+- Role-based Access Control (3-tier hierarchy)
+- Granular Permissions (manageable via UI)
 - Form Validation
 - Soft Deletes
 - Activity Logging
+- Gate-based Super Admin bypass
 
 ## Useful Commands
 
@@ -217,7 +234,7 @@ php artisan make:migration create_assets_table
 php artisan make:seeder UserSeeder
 
 # Run specific seeder
-php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=RoleAndPermissionSeeder
 
 # Fresh database with seeding
 php artisan migrate:fresh --seed
@@ -229,7 +246,7 @@ php artisan migrate:fresh --seed
 
 1. **Permission denied on storage**: Ensure proper permissions are set
 2. **Database connection error**: Check `.env` database configuration
-3. **Storage link not working**: Run `php artisan storage:link` again
+3. **404 on media files**: Files may not exist on the storage disk — avatars fall back to SVG initials, asset images return null gracefully
 
 ### Logs
 

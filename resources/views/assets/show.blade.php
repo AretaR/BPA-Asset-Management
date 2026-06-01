@@ -200,7 +200,7 @@
 
         @if($asset->status === 'assigned' && auth()->user()->canAssignAssets())
         <div class="card mb-4">
-            <div class="card-header bg-warning text-dark">
+            <div class="card-header" style="background: rgba(245, 158, 11, 0.12); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2);">
                 <i class="fas fa-undo me-2"></i> Check In Asset
             </div>
             <div class="card-body">
