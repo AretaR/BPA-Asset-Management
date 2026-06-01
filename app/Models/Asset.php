@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Asset extends Model
@@ -161,6 +162,10 @@ class Asset extends Model
 
         $path = ltrim((string) $this->image, '/');
         $path = preg_replace('#^storage/#', '', $path);
+
+        if (!Storage::disk('public')->exists($path)) {
+            return null;
+        }
 
         return route('media.public', ['path' => $path]);
     }

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -270,7 +271,9 @@ class User extends Authenticatable
             $path = ltrim((string) $this->avatar, '/');
             $path = preg_replace('#^storage/#', '', $path);
 
-            return route('media.public', ['path' => $path]);
+            if (Storage::disk('public')->exists($path)) {
+                return route('media.public', ['path' => $path]);
+            }
         }
 
         // Generate a local SVG initials avatar — no external dependencies
