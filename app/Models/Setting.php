@@ -86,7 +86,7 @@ class Setting extends Model
 
     public static function timezone(): string
     {
-        return self::get('timezone', 'Asia/Manila');
+        return self::get('timezone', 'Pacific/Tarawa');
     }
 
     public static function emailFrom(): string

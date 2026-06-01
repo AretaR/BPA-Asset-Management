@@ -49,8 +49,9 @@
                         <div class="col-md-6">
                             <label for="timezone" class="form-label">Timezone</label>
                             <select class="form-select" id="timezone" name="timezone">
-                                <option value="Asia/Manila" {{ old('timezone', \App\Models\Setting::timezone()) == 'Asia/Manila' ? 'selected' : '' }}>Asia/Manila</option>
+                                <option value="Pacific/Tarawa" {{ old('timezone', \App\Models\Setting::timezone()) == 'Pacific/Tarawa' ? 'selected' : '' }}>Pacific/Tarawa (UTC+12)</option>
                                 <option value="UTC" {{ old('timezone', \App\Models\Setting::timezone()) == 'UTC' ? 'selected' : '' }}>UTC</option>
+                                <option value="Asia/Manila" {{ old('timezone', \App\Models\Setting::timezone()) == 'Asia/Manila' ? 'selected' : '' }}>Asia/Manila</option>
                                 <option value="America/New_York" {{ old('timezone', \App\Models\Setting::timezone()) == 'America/New_York' ? 'selected' : '' }}>America/New_York</option>
                                 <option value="Europe/London" {{ old('timezone', \App\Models\Setting::timezone()) == 'Europe/London' ? 'selected' : '' }}>Europe/London</option>
                             </select>
