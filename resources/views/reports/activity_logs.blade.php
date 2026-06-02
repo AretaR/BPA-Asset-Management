@@ -5,9 +5,17 @@
     <h1 class="page-header mb-0">
         <i class="fas fa-history me-2"></i> Activity Logs
     </h1>
-    <a href="{{ route('reports.activity_logs', ['format' => 'pdf']) }}" class="btn btn-danger">
-        <i class="fas fa-file-pdf me-2"></i> Export PDF
-    </a>
+    <div class="btn-group">
+        <a href="{{ route('reports.activity_logs', ['preview' => 1] + request()->query()) }}" class="btn btn-info" target="_blank">
+            <i class="fas fa-eye me-2"></i> Preview
+        </a>
+        <a href="{{ route('reports.activity_logs', ['preview' => 1] + request()->query()) }}" class="btn btn-primary" target="_blank" onclick="event.preventDefault(); window.open(this.href, 'print-preview', 'width=1200,height=800'); return false;">
+            <i class="fas fa-print me-2"></i> Print
+        </a>
+        <a href="{{ route('reports.activity_logs', ['format' => 'pdf'] + request()->query()) }}" class="btn btn-danger">
+            <i class="fas fa-file-pdf me-2"></i> Export PDF
+        </a>
+    </div>
 </div>
 
 <div class="card mb-4">

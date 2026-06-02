@@ -6,11 +6,17 @@
         <i class="fas fa-dollar-sign me-2"></i> Asset Value Summary
     </h1>
     <div class="btn-group">
-        <a href="{{ route('reports.assets_value', ['format' => 'xlsx']) }}" class="btn btn-success">
-            <i class="fas fa-file-excel me-2"></i> Excel
+        <a href="{{ route('reports.assets_value', ['preview' => 1] + request()->query()) }}" class="btn btn-info" target="_blank">
+            <i class="fas fa-eye me-2"></i> Preview
         </a>
-        <a href="{{ route('reports.assets_value', ['format' => 'pdf']) }}" class="btn btn-danger">
-            <i class="fas fa-file-pdf me-2"></i> PDF
+        <a href="{{ route('reports.assets_value', ['preview' => 1] + request()->query()) }}" class="btn btn-primary" target="_blank" onclick="event.preventDefault(); window.open(this.href, 'print-preview', 'width=1200,height=800'); return false;">
+            <i class="fas fa-print me-2"></i> Print
+        </a>
+        <a href="{{ route('reports.assets_value', ['format' => 'pdf'] + request()->query()) }}" class="btn btn-danger">
+            <i class="fas fa-file-pdf me-2"></i> Export PDF
+        </a>
+        <a href="{{ route('reports.assets_value', ['format' => 'xlsx'] + request()->query()) }}" class="btn btn-success">
+            <i class="fas fa-file-excel me-2"></i> Excel
         </a>
     </div>
 </div>

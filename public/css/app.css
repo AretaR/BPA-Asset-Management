@@ -1286,3 +1286,35 @@ hr {
     font-size: 11px;
   }
 }
+
+/* ─── PRINT STYLES ─── */
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .sidebar,
+  .top-navbar,
+  .sidebar-overlay,
+  .app-footer,
+  .no-print {
+    display: none !important;
+  }
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .container-fluid {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .card-header {
+    background: #1e293b !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
