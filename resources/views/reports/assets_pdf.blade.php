@@ -8,11 +8,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Assets List - {{ \App\Models\Setting::companyName() }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @page {
             size: A4 landscape;
-            margin: 12mm 12mm 16mm;
+            margin: 10mm 12mm 14mm;
         }
 
         * {
@@ -23,9 +22,10 @@
 
         body {
             font-family: 'DejaVu Sans', 'Inter', sans-serif;
-            font-size: 8.5px;
+            font-size: 8px;
             color: #1e293b;
-            line-height: 1.4;
+            line-height: 1.35;
+            width: 100%;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
@@ -98,40 +98,35 @@
             border-color: #475569;
         }
 
-        .content {
-            padding: 0;
+        .has-preview-bar {
+            margin-top: 50px;
         }
 
-        .has-preview-bar {
-            margin-top: 52px;
+        .report-title span {
+            font-size: 6.5px;
+            color: #64748b;
         }
 
         .header {
-            border-bottom: 2.5px solid #1e293b;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
         }
 
-        .header-top {
+        .header-inner {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: space-between;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .org-name {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: #0f172a;
         }
 
         .org-tagline {
-            font-size: 7px;
+            font-size: 6.5px;
             color: #64748b;
         }
 
@@ -140,27 +135,21 @@
         }
 
         .report-title h1 {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 800;
             color: #0f172a;
-            letter-spacing: -0.3px;
-        }
-
-        .report-title p {
-            font-size: 7.5px;
-            color: #64748b;
+            letter-spacing: -0.2px;
         }
 
         .meta {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            padding: 5px 10px;
-            margin-bottom: 8px;
-            font-size: 7px;
+            border-radius: 3px;
+            padding: 4px 8px;
+            margin-bottom: 5px;
+            font-size: 6.5px;
         }
 
         .meta-item {
@@ -171,7 +160,7 @@
             font-weight: 600;
             color: #475569;
             text-transform: uppercase;
-            font-size: 6px;
+            font-size: 5.5px;
             letter-spacing: 0.3px;
         }
 
@@ -181,26 +170,27 @@
         }
 
         .records-count {
-            font-size: 7px;
+            font-size: 6.5px;
             font-weight: 600;
             color: #64748b;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         table {
             width: 100%;
+            table-layout: fixed;
             border-collapse: collapse;
-            font-size: 7.5px;
+            font-size: 7px;
         }
 
         thead th {
             background: #1e293b;
             color: #f8fafc;
             font-weight: 600;
-            font-size: 6.5px;
+            font-size: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
-            padding: 5px 6px;
+            letter-spacing: 0.4px;
+            padding: 4px 5px;
             text-align: left;
             border: 1px solid #334155;
         }
@@ -210,22 +200,25 @@
         }
 
         tbody td {
-            padding: 3.5px 6px;
+            padding: 2.5px 5px;
             border: 1px solid #e2e8f0;
             color: #1e293b;
             vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         tbody tr:nth-child(even) {
-            background: #f1f5f9;
+            background: #f8fafc;
         }
 
         tfoot td {
-            padding: 4px 6px;
+            padding: 3px 5px;
             border: 1px solid #e2e8f0;
             background: #e2e8f0;
             font-weight: 700;
-            font-size: 7.5px;
+            font-size: 7px;
         }
 
         tfoot td.text-end {
@@ -236,17 +229,16 @@
             display: inline-block;
             padding: 1px 5px;
             border-radius: 100px;
-            font-size: 6px;
+            font-size: 5.5px;
             font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
         .badge.bg-success { background: #dcfce7; color: #166534; }
         .badge.bg-primary { background: #dbeafe; color: #1e40af; }
         .badge.bg-warning { background: #fef3c7; color: #92400e; }
         .badge.bg-danger  { background: #fee2e2; color: #991b1b; }
-        .badge.bg-info    { background: #cffafe; color: #155e75; }
         .badge.bg-secondary { background: #f1f5f9; color: #475569; }
-        .badge.bg-dark    { background: #1e293b; color: #f8fafc; }
 
         .footer {
             position: fixed;
@@ -254,10 +246,10 @@
             left: 0;
             right: 0;
             border-top: 1px solid #e2e8f0;
-            padding-top: 4px;
+            padding-top: 3px;
             display: flex;
             justify-content: space-between;
-            font-size: 6.5px;
+            font-size: 6px;
             color: #94a3b8;
         }
 
@@ -272,14 +264,6 @@
 
             .has-preview-bar {
                 margin-top: 0;
-            }
-
-            .header {
-                margin-bottom: 6px;
-            }
-
-            .meta {
-                margin-bottom: 6px;
             }
 
             thead {
@@ -314,34 +298,33 @@
     </div>
     @endif
 
-    <div class="content @if(request()->has('preview')) has-preview-bar @endif">
+    <div class="{{ request()->has('preview') ? 'has-preview-bar' : '' }}">
+
         <div class="header">
-            <div class="header-top">
-                <div class="header-left">
-                    <div>
-                        <div class="org-name">{{ \App\Models\Setting::companyName() }}</div>
-                        <div class="org-tagline">Asset Management System</div>
-                    </div>
+            <div class="header-inner">
+                <div>
+                    <div class="org-name">{{ \App\Models\Setting::companyName() }}</div>
+                    <div class="org-tagline">Asset Management System</div>
                 </div>
                 <div class="report-title">
                     <h1>Assets List</h1>
-                    <p>Complete list of all registered assets</p>
+                    <span>Complete list of all registered assets</span>
                 </div>
             </div>
         </div>
 
         <div class="meta">
             <div class="meta-item">
-                <div class="meta-label">Date Generated</div>
-                <div class="meta-value">{{ now()->format('F d, Y h:i A') }}</div>
+                <div class="meta-label">Generated</div>
+                <div class="meta-value">{{ now()->format('M d, Y h:i A') }}</div>
             </div>
             <div class="meta-item">
                 <div class="meta-label">Prepared By</div>
                 <div class="meta-value">{{ auth()->user()->name ?? 'System' }}</div>
             </div>
             <div class="meta-item">
-                <div class="meta-label">Total Records</div>
-                <div class="meta-value">{{ $totalRecords ?? 0 }}</div>
+                <div class="meta-label">Records</div>
+                <div class="meta-value">{{ $totalRecords }}</div>
             </div>
             @if(isset($filterInfo) && $filterInfo)
             <div class="meta-item">
@@ -356,20 +339,20 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width:14%">Asset Tag</th>
-                    <th style="width:18%">Name</th>
-                    <th style="width:13%">Category</th>
-                    <th style="width:13%">Department</th>
-                    <th style="width:14%">Assigned To</th>
-                    <th style="width:10%">Status</th>
-                    <th style="width:10%">Location</th>
-                    <th style="width:8%" class="text-end">Cost</th>
+                    <th style="width:13%">Asset Tag</th>
+                    <th style="width:22%">Name</th>
+                    <th style="width:12%">Category</th>
+                    <th style="width:11%">Department</th>
+                    <th style="width:13%">Assigned To</th>
+                    <th style="width:9%">Status</th>
+                    <th style="width:11%">Location</th>
+                    <th style="width:9%" class="text-end">Cost</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($assets as $asset)
                 <tr>
-                    <td><strong>{{ $asset->asset_tag }}</strong></td>
+                    <td>{{ $asset->asset_tag }}</td>
                     <td>{{ $asset->name }}</td>
                     <td>{{ $asset->category->name ?? 'N/A' }}</td>
                     <td>{{ $asset->department->name ?? 'N/A' }}</td>
@@ -386,17 +369,18 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7">Total ({{ $totalRecords }} assets)</td>
+                    <td colspan="7">Total ({{ $totalRecords }} asset{{ $totalRecords !== 1 ? 's' : '' }})</td>
                     <td class="text-end">${{ number_format($assets->sum('purchase_cost'), 2) }}</td>
                 </tr>
             </tfoot>
         </table>
 
         <div class="footer">
-            <span>{{ \App\Models\Setting::companyName() }} &mdash; Internal Use</span>
-            <span>Generated {{ now()->format('F d, Y h:i A') }}</span>
+            <span>{{ \App\Models\Setting::companyName() }}</span>
+            <span>{{ now()->format('M d, Y') }}</span>
             <span>Page 1</span>
         </div>
+
     </div>
 
 </body>
