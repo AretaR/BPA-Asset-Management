@@ -337,6 +337,11 @@ body {
   padding: 18px;
 }
 
+.card-title {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
 /* ─── STAT CARDS ─── */
 .stat-card {
   border: 1px solid var(--card-border);
