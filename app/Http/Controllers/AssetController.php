@@ -295,7 +295,7 @@ class AssetController extends Controller
         if ($format === 'pdf') {
             $assets = Asset::with(['category', 'department', 'assignedUser'])->get();
             $pdf = Pdf::loadView('reports.assets_pdf', compact('assets'))
-                ->setPaper('a4', 'landscape');
+                ->setPaper('a4');
 
             return $pdf->download($filename.'.pdf');
         }
