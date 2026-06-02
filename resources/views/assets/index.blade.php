@@ -80,6 +80,9 @@
         <span><i class="fas fa-list me-2"></i> All Assets ({{ $assets->total() }})</span>
         @if(auth()->user()->hasPermissionTo('assets.view'))
         <div class="btn-group">
+            <a href="{{ route('assets.export', array_merge(request()->all(), ['preview' => 1])) }}" class="btn btn-sm btn-info" target="_blank" onclick="event.preventDefault(); window.open(this.href, 'print-preview', 'width=1200,height=800'); return false;">
+                <i class="fas fa-eye me-1"></i> Preview
+            </a>
             <a href="{{ route('assets.export', array_merge(request()->all(), ['format' => 'xlsx'])) }}" class="btn btn-sm btn-success">
                 <i class="fas fa-file-excel me-1"></i> Excel
             </a>

@@ -287,9 +287,15 @@ class AssetController extends Controller
 
         $filename = 'assets_'.date('Y-m-d_H-i-s');
 
+        if ($request->has('preview')) {
+            $assets = Asset::with(['category', 'department', 'assignedUser'])->get();
+            return view('reports.assets_pdf', compact('assets'));
+        }
+
         if ($format === 'pdf') {
             $assets = Asset::with(['category', 'department', 'assignedUser'])->get();
-            $pdf = Pdf::loadView('reports.assets_pdf', compact('assets'));
+            $pdf = Pdf::loadView('reports.assets_pdf', compact('assets'))
+                ->setPaper('a4', 'landscape');
 
             return $pdf->download($filename.'.pdf');
         }
