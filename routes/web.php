@@ -16,6 +16,8 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\EmailLogController;
+use App\Http\Controllers\EmailHealthController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -90,6 +92,21 @@ Route::middleware('auth')->group(function () {
             Route::get('general', [SettingController::class, 'general'])->name('general');
             Route::get('email', [SettingController::class, 'email'])->name('email');
             Route::post('/', [SettingController::class, 'update'])->name('update');
+        });
+    });
+
+    // ─── Email Logs ──────────────────────────────────────────────────────────
+    Route::middleware('permission:settings.manage')->group(function () {
+        Route::prefix('email-logs')->name('email-logs.')->group(function () {
+            Route::get('/', [EmailLogController::class, 'index'])->name('index');
+            Route::get('{emailLog}', [EmailLogController::class, 'show'])->name('show');
+            Route::delete('{emailLog}', [EmailLogController::class, 'destroy'])->name('destroy');
+            Route::post('clear', [EmailLogController::class, 'clear'])->name('clear');
+        });
+
+        Route::prefix('email-health')->name('email-health.')->group(function () {
+            Route::get('/', [EmailHealthController::class, 'index'])->name('index');
+            Route::post('test', [EmailHealthController::class, 'test'])->name('test');
         });
     });
 

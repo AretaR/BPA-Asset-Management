@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6334d861e9347a6233c2eb7418a0801",
+    "content-hash": "dba33c4f1717ab299698620a3f8fec43",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2971,84 +2971,6 @@
             "time": "2025-07-25T09:04:22+00:00"
         },
         {
-            "name": "milon/barcode",
-            "version": "v13.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/milon/barcode.git",
-                "reference": "ce84b0ba0d9c0f19f1ef058cd39187bd9468dfc8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/milon/barcode/zipball/ce84b0ba0d9c0f19f1ef058cd39187bd9468dfc8",
-                "reference": "ce84b0ba0d9c0f19f1ef058cd39187bd9468dfc8",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "illuminate/support": "^7.0|^8.0|^9.0|^10.0 | ^11.0 | ^12.0 | ^13.0",
-                "php": "^7.3 | ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5 || ^10.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "DNS1D": "Milon\\Barcode\\Facades\\DNS1DFacade",
-                        "DNS2D": "Milon\\Barcode\\Facades\\DNS2DFacade"
-                    },
-                    "providers": [
-                        "Milon\\Barcode\\BarcodeServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Milon\\Barcode": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Nuruzzaman Milon",
-                    "email": "contact@milon.im"
-                }
-            ],
-            "description": "Barcode generator like Qr Code, PDF417, C39, C39+, C39E, C39E+, C93, S25, S25+, I25, I25+, C128, C128A, C128B, C128C, 2-Digits UPC-Based Extention, 5-Digits UPC-Based Extention, EAN 8, EAN 13, UPC-A, UPC-E, MSI (Variation of Plessey code)",
-            "keywords": [
-                "CODABAR",
-                "CODE 128",
-                "CODE 39",
-                "barcode",
-                "datamatrix",
-                "ean",
-                "laravel",
-                "pdf417",
-                "qr code",
-                "qrcode"
-            ],
-            "support": {
-                "issues": "https://github.com/milon/barcode/issues",
-                "source": "https://github.com/milon/barcode/tree/v13.1"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/nuruzzamanmilon",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/milon",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-24T01:48:58+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "3.10.0",
             "source": {
@@ -3743,87 +3665,6 @@
             "time": "2025-12-27T19:41:33+00:00"
         },
         {
-            "name": "picqer/php-barcode-generator",
-            "version": "v3.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/picqer/php-barcode-generator.git",
-                "reference": "16a5cfb74eb8b7a0aa2e60427d98599aa8259380"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/picqer/php-barcode-generator/zipball/16a5cfb74eb8b7a0aa2e60427d98599aa8259380",
-                "reference": "16a5cfb74eb8b7a0aa2e60427d98599aa8259380",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^9.5"
-            },
-            "suggest": {
-                "ext-bcmath": "Barcode IMB (Intelligent Mail Barcode) needs bcmath extension",
-                "ext-gd": "For JPG and PNG generators, GD or Imagick is required",
-                "ext-imagick": "For JPG and PNG generators, GD or Imagick is required"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Picqer\\Barcode\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Casper Bakker",
-                    "email": "info@picqer.com",
-                    "homepage": "https://picqer.com"
-                },
-                {
-                    "name": "Nicola Asuni",
-                    "email": "info@tecnick.com",
-                    "homepage": "http://nicolaasuni.tecnick.com"
-                }
-            ],
-            "description": "An easy to use, non-bloated, barcode generator in PHP. Creates SVG, PNG, JPG and HTML images from the most used 1D barcode standards.",
-            "homepage": "https://github.com/picqer/php-barcode-generator",
-            "keywords": [
-                "CODABAR",
-                "Code11",
-                "Code93",
-                "EAN13",
-                "KIX",
-                "KIXCODE",
-                "MSI",
-                "POSTNET",
-                "Pharma",
-                "Standard 2 of 5",
-                "barcode",
-                "barcode generator",
-                "code128",
-                "code39",
-                "ean",
-                "html",
-                "jpeg",
-                "jpg",
-                "php",
-                "png",
-                "svg",
-                "upc"
-            ],
-            "support": {
-                "issues": "https://github.com/picqer/php-barcode-generator/issues",
-                "source": "https://github.com/picqer/php-barcode-generator/tree/v3.2.4"
-            },
-            "time": "2026-01-08T08:57:40+00:00"
-        },
-        {
             "name": "psr/clock",
             "version": "1.0.0",
             "source": {
@@ -4511,6 +4352,132 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.9.2"
             },
             "time": "2025-12-14T04:43:48+00:00"
+        },
+        {
+            "name": "resend/resend-laravel",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/resend/resend-laravel.git",
+                "reference": "6dd5f5ec607404068c5af067fd7f6ba4b659262b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/resend/resend-laravel/zipball/6dd5f5ec607404068c5af067fd7f6ba4b659262b",
+                "reference": "6dd5f5ec607404068c5af067fd7f6ba4b659262b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.1",
+                "resend/resend-php": "^1.0.0",
+                "symfony/mailer": "^6.2|^7.0|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.14",
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^8.17|^9.0|^10.8|^11.0",
+                "pestphp/pest": "^1.0|^2.0|^3.7|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Resend\\Laravel\\ResendServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Resend\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Resend and contributors",
+                    "homepage": "https://github.com/resend/resend-laravel/contributors"
+                }
+            ],
+            "description": "Resend for Laravel",
+            "homepage": "https://resend.com/",
+            "keywords": [
+                "api",
+                "client",
+                "laravel",
+                "php",
+                "resend",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/resend/resend-laravel/issues",
+                "source": "https://github.com/resend/resend-laravel/tree/v1.4.0"
+            },
+            "time": "2026-05-06T17:08:44+00:00"
+        },
+        {
+            "name": "resend/resend-php",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/resend/resend-php.git",
+                "reference": "87d29d98271a0ab1c09cdbee102daa2f9b3419db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/resend/resend-php/zipball/87d29d98271a0ab1c09cdbee102daa2f9b3419db",
+                "reference": "87d29d98271a0ab1c09cdbee102daa2f9b3419db",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "mockery/mockery": "^1.6",
+                "pestphp/pest": "^1.0|^2.0|^3.0|^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Resend.php"
+                ],
+                "psr-4": {
+                    "Resend\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Resend and contributors",
+                    "homepage": "https://github.com/resend/resend-php/contributors"
+                }
+            ],
+            "description": "Resend PHP library.",
+            "homepage": "https://resend.com/",
+            "keywords": [
+                "api",
+                "client",
+                "php",
+                "resend",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/resend/resend-php/issues",
+                "source": "https://github.com/resend/resend-php/tree/v1.3.0"
+            },
+            "time": "2026-04-11T10:48:32+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",

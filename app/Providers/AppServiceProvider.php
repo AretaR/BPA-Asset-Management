@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Asset;
+use App\Models\User;
+use App\Observers\AssetObserver;
+use App\Observers\UserObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Ensure storage link exists
         $this->ensureStorageLink();
+
+        Asset::observe(AssetObserver::class);
+        User::observe(UserObserver::class);
 
         Route::fallback(function () {
             $path = request()->path();

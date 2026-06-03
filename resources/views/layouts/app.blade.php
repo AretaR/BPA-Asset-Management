@@ -106,6 +106,16 @@
                             <i class="fas fa-cog"></i> Settings
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('email-logs.*') ? 'active' : '' }}" href="{{ route('email-logs.index') }}">
+                            <i class="fas fa-history"></i> Email Logs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('email-health.*') ? 'active' : '' }}" href="{{ route('email-health.index') }}">
+                            <i class="fas fa-heartbeat"></i> Email Health
+                        </a>
+                    </li>
                     @endif
 
                 </ul>

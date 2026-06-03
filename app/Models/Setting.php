@@ -91,7 +91,7 @@ class Setting extends Model
 
     public static function emailFrom(): string
     {
-        return self::get('email_from_address', 'noreply@bpa.com');
+        return self::get('email_from_address', 'no-reply@bpa-app.net');
     }
 
     public static function emailFromName(): string
