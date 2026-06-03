@@ -86,7 +86,7 @@
                                             <input class="form-check-input" type="checkbox" id="notify_asset_created"
                                                    name="notify_asset_created" value="1"
                                                    {{ old('notify_asset_created', \App\Models\Setting::get('notify_asset_created', 'true')) === 'true' || old('notify_asset_created', \App\Models\Setting::get('notify_asset_created', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-medium" for="notify_asset_created">Asset Created</label>
+                                            <label class="form-check-label fw-bold text-dark" for="notify_asset_created">Asset Created</label>
                                         </div>
                                         <small class="text-muted d-block mt-1">When a new asset is added to the system</small>
                                     </div>
@@ -102,7 +102,7 @@
                                             <input class="form-check-input" type="checkbox" id="notify_asset_updated"
                                                    name="notify_asset_updated" value="1"
                                                    {{ old('notify_asset_updated', \App\Models\Setting::get('notify_asset_updated', 'true')) === 'true' || old('notify_asset_updated', \App\Models\Setting::get('notify_asset_updated', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-medium" for="notify_asset_updated">Asset Updated</label>
+                                            <label class="form-check-label fw-bold text-dark" for="notify_asset_updated">Asset Updated</label>
                                         </div>
                                         <small class="text-muted d-block mt-1">When asset details are modified</small>
                                     </div>
@@ -118,7 +118,7 @@
                                             <input class="form-check-input" type="checkbox" id="notify_asset_checkout"
                                                    name="notify_asset_checkout" value="1"
                                                    {{ old('notify_asset_checkout', \App\Models\Setting::get('notify_asset_checkout', 'true')) === 'true' || old('notify_asset_checkout', \App\Models\Setting::get('notify_asset_checkout', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-medium" for="notify_asset_checkout">Asset Checkout / Check-in</label>
+                                            <label class="form-check-label fw-bold text-dark" for="notify_asset_checkout">Asset Checkout / Check-in</label>
                                         </div>
                                         <small class="text-muted d-block mt-1">When an asset is assigned or returned</small>
                                     </div>
@@ -134,7 +134,7 @@
                                             <input class="form-check-input" type="checkbox" id="notify_user_created"
                                                    name="notify_user_created" value="1"
                                                    {{ old('notify_user_created', \App\Models\Setting::get('notify_user_created', 'true')) === 'true' || old('notify_user_created', \App\Models\Setting::get('notify_user_created', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-medium" for="notify_user_created">User Changes</label>
+                                            <label class="form-check-label fw-bold text-dark" for="notify_user_created">User Changes</label>
                                         </div>
                                         <small class="text-muted d-block mt-1">When user accounts are created or updated</small>
                                     </div>
@@ -150,7 +150,7 @@
                                             <input class="form-check-input" type="checkbox" id="notify_maintenance"
                                                    name="notify_maintenance" value="1"
                                                    {{ old('notify_maintenance', \App\Models\Setting::get('notify_maintenance', 'true')) === 'true' || old('notify_maintenance', \App\Models\Setting::get('notify_maintenance', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-medium" for="notify_maintenance">Maintenance Alerts</label>
+                                            <label class="form-check-label fw-bold text-dark" for="notify_maintenance">Maintenance Alerts</label>
                                         </div>
                                         <small class="text-muted d-block mt-1">When maintenance is due or overdue</small>
                                     </div>
