@@ -398,7 +398,7 @@
             margin-bottom: 10px;
         }
 
-        /* ─── PRINT STYLES ─── */
+        /* ─── PRINT / PDF STYLES ─── */
         @media print {
             .no-print {
                 display: none !important;
@@ -415,11 +415,10 @@
             }
 
             .report-page {
-                width: 100%;
-                margin: 0;
-                padding: 15mm 15mm 20mm;
+                width: 210mm;
+                margin: 0 auto;
+                padding: 20mm 20mm 25mm;
                 box-shadow: none;
-                page-break-after: avoid;
             }
 
             .report-table thead {
@@ -432,9 +431,9 @@
 
             .report-footer {
                 position: fixed;
-                bottom: 10mm;
-                left: 15mm;
-                right: 15mm;
+                bottom: 15mm;
+                left: 20mm;
+                right: 20mm;
             }
 
             @page {
