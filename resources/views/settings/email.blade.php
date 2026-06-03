@@ -55,7 +55,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <div class="form-check form-switch">
+                            <div class="form-check form-switch master-toggle">
                                 <input class="form-check-input" type="checkbox" id="email_notifications_enabled"
                                        name="email_notifications_enabled" value="1"
                                        {{ old('email_notifications_enabled', \App\Models\Setting::get('email_notifications_enabled', 'true')) === 'true' || old('email_notifications_enabled', \App\Models\Setting::get('email_notifications_enabled', 'true')) === '1' ? 'checked' : '' }}>
@@ -77,7 +77,7 @@
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="d-flex align-items-center p-3 border rounded notification-card">
                                     <div class="flex-shrink-0 me-3 text-primary fs-4">
                                         <i class="fas fa-plus-circle"></i>
                                     </div>
@@ -86,14 +86,14 @@
                                             <input class="form-check-input" type="checkbox" id="notify_asset_created"
                                                    name="notify_asset_created" value="1"
                                                    {{ old('notify_asset_created', \App\Models\Setting::get('notify_asset_created', 'true')) === 'true' || old('notify_asset_created', \App\Models\Setting::get('notify_asset_created', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-bold text-dark" for="notify_asset_created">Asset Created</label>
+                                            <label class="form-check-label" for="notify_asset_created">Asset Created</label>
                                         </div>
-                                        <small class="text-muted d-block mt-1">When a new asset is added to the system</small>
+                                        <small class="notification-desc d-block mt-1">When a new asset is added to the system</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="d-flex align-items-center p-3 border rounded notification-card">
                                     <div class="flex-shrink-0 me-3 text-warning fs-4">
                                         <i class="fas fa-pen"></i>
                                     </div>
@@ -102,14 +102,14 @@
                                             <input class="form-check-input" type="checkbox" id="notify_asset_updated"
                                                    name="notify_asset_updated" value="1"
                                                    {{ old('notify_asset_updated', \App\Models\Setting::get('notify_asset_updated', 'true')) === 'true' || old('notify_asset_updated', \App\Models\Setting::get('notify_asset_updated', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-bold text-dark" for="notify_asset_updated">Asset Updated</label>
+                                            <label class="form-check-label" for="notify_asset_updated">Asset Updated</label>
                                         </div>
-                                        <small class="text-muted d-block mt-1">When asset details are modified</small>
+                                        <small class="notification-desc d-block mt-1">When asset details are modified</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="d-flex align-items-center p-3 border rounded notification-card">
                                     <div class="flex-shrink-0 me-3 text-info fs-4">
                                         <i class="fas fa-exchange-alt"></i>
                                     </div>
@@ -118,14 +118,14 @@
                                             <input class="form-check-input" type="checkbox" id="notify_asset_checkout"
                                                    name="notify_asset_checkout" value="1"
                                                    {{ old('notify_asset_checkout', \App\Models\Setting::get('notify_asset_checkout', 'true')) === 'true' || old('notify_asset_checkout', \App\Models\Setting::get('notify_asset_checkout', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-bold text-dark" for="notify_asset_checkout">Asset Checkout / Check-in</label>
+                                            <label class="form-check-label" for="notify_asset_checkout">Asset Checkout / Check-in</label>
                                         </div>
-                                        <small class="text-muted d-block mt-1">When an asset is assigned or returned</small>
+                                        <small class="notification-desc d-block mt-1">When an asset is assigned or returned</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="d-flex align-items-center p-3 border rounded notification-card">
                                     <div class="flex-shrink-0 me-3 text-success fs-4">
                                         <i class="fas fa-users"></i>
                                     </div>
@@ -134,14 +134,14 @@
                                             <input class="form-check-input" type="checkbox" id="notify_user_created"
                                                    name="notify_user_created" value="1"
                                                    {{ old('notify_user_created', \App\Models\Setting::get('notify_user_created', 'true')) === 'true' || old('notify_user_created', \App\Models\Setting::get('notify_user_created', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-bold text-dark" for="notify_user_created">User Changes</label>
+                                            <label class="form-check-label" for="notify_user_created">User Changes</label>
                                         </div>
-                                        <small class="text-muted d-block mt-1">When user accounts are created or updated</small>
+                                        <small class="notification-desc d-block mt-1">When user accounts are created or updated</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="d-flex align-items-center p-3 border rounded notification-card">
                                     <div class="flex-shrink-0 me-3 text-danger fs-4">
                                         <i class="fas fa-tools"></i>
                                     </div>
@@ -150,9 +150,9 @@
                                             <input class="form-check-input" type="checkbox" id="notify_maintenance"
                                                    name="notify_maintenance" value="1"
                                                    {{ old('notify_maintenance', \App\Models\Setting::get('notify_maintenance', 'true')) === 'true' || old('notify_maintenance', \App\Models\Setting::get('notify_maintenance', 'true')) === '1' ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-bold text-dark" for="notify_maintenance">Maintenance Alerts</label>
+                                            <label class="form-check-label" for="notify_maintenance">Maintenance Alerts</label>
                                         </div>
-                                        <small class="text-muted d-block mt-1">When maintenance is due or overdue</small>
+                                        <small class="notification-desc d-block mt-1">When maintenance is due or overdue</small>
                                     </div>
                                 </div>
                             </div>
@@ -191,6 +191,27 @@
         </form>
     </div>
 </div>
+
+@push('styles')
+<style>
+.notification-card .form-check-label {
+    color: var(--text-primary, #f8fafc) !important;
+    font-weight: 700;
+    font-size: 0.9375rem;
+}
+.notification-card .notification-desc {
+    color: var(--text-secondary, #cbd5e1) !important;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+.master-toggle .form-check-label {
+    color: var(--text-primary, #f8fafc) !important;
+}
+.master-toggle .text-muted {
+    color: var(--text-secondary, #cbd5e1) !important;
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
