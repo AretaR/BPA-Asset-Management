@@ -88,7 +88,7 @@
                                                    {{ old('notify_asset_created', \App\Models\Setting::get('notify_asset_created', 'true')) === 'true' || old('notify_asset_created', \App\Models\Setting::get('notify_asset_created', 'true')) === '1' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="notify_asset_created">Asset Created</label>
                                         </div>
-                                        <small class="notification-desc d-block mt-1">When a new asset is added to the system</small>
+                                        <small class="notification-desc d-block mt-2">When a new asset is added to the system</small>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                                                    {{ old('notify_asset_updated', \App\Models\Setting::get('notify_asset_updated', 'true')) === 'true' || old('notify_asset_updated', \App\Models\Setting::get('notify_asset_updated', 'true')) === '1' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="notify_asset_updated">Asset Updated</label>
                                         </div>
-                                        <small class="notification-desc d-block mt-1">When asset details are modified</small>
+                                        <small class="notification-desc d-block mt-2">When asset details are modified</small>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                                    {{ old('notify_asset_checkout', \App\Models\Setting::get('notify_asset_checkout', 'true')) === 'true' || old('notify_asset_checkout', \App\Models\Setting::get('notify_asset_checkout', 'true')) === '1' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="notify_asset_checkout">Asset Checkout / Check-in</label>
                                         </div>
-                                        <small class="notification-desc d-block mt-1">When an asset is assigned or returned</small>
+                                        <small class="notification-desc d-block mt-2">When an asset is assigned or returned</small>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                                                    {{ old('notify_user_created', \App\Models\Setting::get('notify_user_created', 'true')) === 'true' || old('notify_user_created', \App\Models\Setting::get('notify_user_created', 'true')) === '1' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="notify_user_created">User Changes</label>
                                         </div>
-                                        <small class="notification-desc d-block mt-1">When user accounts are created or updated</small>
+                                        <small class="notification-desc d-block mt-2">When user accounts are created or updated</small>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                                    {{ old('notify_maintenance', \App\Models\Setting::get('notify_maintenance', 'true')) === 'true' || old('notify_maintenance', \App\Models\Setting::get('notify_maintenance', 'true')) === '1' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="notify_maintenance">Maintenance Alerts</label>
                                         </div>
-                                        <small class="notification-desc d-block mt-1">When maintenance is due or overdue</small>
+                                        <small class="notification-desc d-block mt-2">When maintenance is due or overdue</small>
                                     </div>
                                 </div>
                             </div>
@@ -200,9 +200,10 @@
     font-size: 0.9375rem;
 }
 .notification-card .notification-desc {
-    color: #e2e8f0 !important;
-    font-size: 0.8125rem;
-    line-height: 1.4;
+    color: #cbd5e1 !important;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin-top: 6px !important;
 }
 .master-toggle .form-check-label {
     color: #ffffff !important;
