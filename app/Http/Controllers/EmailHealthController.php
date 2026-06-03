@@ -52,7 +52,7 @@ class EmailHealthController extends Controller
 
         $success = $this->emailService->sendTestEmail($validated['recipient']);
 
-        if ($request->expectsJson()) {
+        if ($request->expectsJson() || $request->isJson()) {
             if ($success) {
                 return response()->json(['success' => true, 'message' => 'Test email sent successfully to ' . $validated['recipient'] . '. Check your inbox.']);
             }
