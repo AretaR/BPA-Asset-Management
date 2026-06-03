@@ -195,20 +195,20 @@
 @push('styles')
 <style>
 .notification-card .form-check-label {
-    color: var(--text-primary, #f8fafc) !important;
+    color: #ffffff !important;
     font-weight: 700;
     font-size: 0.9375rem;
 }
 .notification-card .notification-desc {
-    color: var(--text-secondary, #cbd5e1) !important;
+    color: #e2e8f0 !important;
     font-size: 0.8125rem;
     line-height: 1.4;
 }
 .master-toggle .form-check-label {
-    color: var(--text-primary, #f8fafc) !important;
+    color: #ffffff !important;
 }
 .master-toggle .text-muted {
-    color: var(--text-secondary, #cbd5e1) !important;
+    color: #e2e8f0 !important;
 }
 </style>
 @endpush
