@@ -196,20 +196,26 @@
 <style>
 .notification-card .form-check-label {
     color: #ffffff !important;
-    font-weight: 700;
-    font-size: 0.9375rem;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.01em;
 }
 .notification-card .notification-desc {
-    color: #cbd5e1 !important;
-    font-size: 0.75rem;
+    color: #f1f5f9 !important;
+    font-size: 0.8125rem !important;
+    font-weight: 450 !important;
     line-height: 1.5;
     margin-top: 6px !important;
+    opacity: 0.85;
 }
 .master-toggle .form-check-label {
     color: #ffffff !important;
+    font-size: 1rem !important;
 }
 .master-toggle .text-muted {
-    color: #e2e8f0 !important;
+    color: #f1f5f9 !important;
+    font-size: 0.8125rem !important;
+    opacity: 0.85;
 }
 </style>
 @endpush
