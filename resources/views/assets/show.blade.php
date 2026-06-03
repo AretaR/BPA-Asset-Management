@@ -88,7 +88,7 @@
             <div class="card-header">
                 <i class="fas fa-info-circle me-2"></i> Asset Details
             </div>
-            <div class="card-body">
+            <div class="card-body text-white">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="text-muted small">Asset Tag</label>

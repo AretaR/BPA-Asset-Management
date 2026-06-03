@@ -32,7 +32,7 @@
             <div class="card-header">
                 <i class="fas fa-info-circle me-2"></i> Department Details
             </div>
-            <div class="card-body">
+            <div class="card-body text-white">
                 <div class="mb-3">
                     <label class="text-muted small">Code</label>
                     <div class="fw-bold">{{ $department->code }}</div>
