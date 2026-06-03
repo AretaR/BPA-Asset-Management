@@ -15,6 +15,7 @@
         </a>
         @endcan
         @can('delete', $user)
+        @if(!$user->isSuperAdmin())
         <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
             @csrf
             @method('DELETE')
@@ -22,6 +23,7 @@
                 <i class="fas fa-trash me-2"></i> Delete
             </button>
         </form>
+        @endif
         @endcan
     </div>
 </div>

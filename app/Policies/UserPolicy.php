@@ -42,6 +42,11 @@ class UserPolicy
         if ($user->id === $model->id) {
             return false;
         }
+
+        if ($model->isSuperAdmin()) {
+            return false;
+        }
+
         return $user->hasPermissionTo('users.delete') && $model->assignedAssets()->count() === 0;
     }
 }

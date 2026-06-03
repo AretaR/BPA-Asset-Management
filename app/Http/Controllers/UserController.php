@@ -174,6 +174,11 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('users.index')
+                ->with('error', 'Super Admin accounts cannot be deleted.');
+        }
+
         $this->authorize('delete', $user);
 
         if ($user->id === auth()->id()) {

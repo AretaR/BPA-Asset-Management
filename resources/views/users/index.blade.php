@@ -106,14 +106,15 @@
                                 </a>
                                 @endcan
                                 @can('delete', $user)
-                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger" 
-                                            onclick="return confirm('Are you sure?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                @if(!$user->isSuperAdmin())
+                                <button type="button" class="btn btn-outline-danger"
+                                        onclick="if(confirm('Are you sure?')){ this.nextElementSibling.submit(); }">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-none">
+                                    @csrf @method('DELETE')
                                 </form>
+                                @endif
                                 @endcan
                             </div>
                         </td>
