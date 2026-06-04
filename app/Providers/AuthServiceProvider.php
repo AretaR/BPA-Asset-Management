@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\AssetRequest;
 use App\Models\Asset;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\User;
+use App\Policies\AssetRequestPolicy;
 use App\Policies\AssetPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\DepartmentPolicy;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Gate;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
+        AssetRequest::class => AssetRequestPolicy::class,
         Asset::class => AssetPolicy::class,
         Category::class => CategoryPolicy::class,
         Department::class => DepartmentPolicy::class,

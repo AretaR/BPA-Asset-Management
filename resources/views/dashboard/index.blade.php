@@ -137,6 +137,102 @@
     </div>
 </div>
 
+@if(auth()->user()->hasPermissionTo('asset-requests.view'))
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <span class="section-title"><i class="fas fa-clipboard-list me-2"></i> Asset Requests Overview</span>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('asset-requests.index', ['status' => 'pending']) }}" class="text-decoration-none">
+                            <div class="card stat-card stat-amber h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="stat-label">Pending</div>
+                                            <h2 class="mb-0">{{ $stats['pending_requests'] }}</h2>
+                                        </div>
+                                        <div class="stat-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="fw-semibold" style="color: #D97706;">View Requests <i class="fas fa-arrow-right ms-1"></i></small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('asset-requests.index', ['status' => 'approved']) }}" class="text-decoration-none">
+                            <div class="card stat-card stat-green h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="stat-label">Approved</div>
+                                            <h2 class="mb-0">{{ $stats['approved_requests'] }}</h2>
+                                        </div>
+                                        <div class="stat-icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="fw-semibold" style="color: #34d399;">View Requests <i class="fas fa-arrow-right ms-1"></i></small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('asset-requests.index', ['status' => 'rejected']) }}" class="text-decoration-none">
+                            <div class="card stat-card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="stat-label">Rejected</div>
+                                            <h2 class="mb-0">{{ $stats['rejected_requests'] }}</h2>
+                                        </div>
+                                        <div class="stat-icon" style="background: rgba(239, 68, 68, 0.12); color: #ef4444;">
+                                            <i class="fas fa-times-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="fw-semibold" style="color: #ef4444;">View Requests <i class="fas fa-arrow-right ms-1"></i></small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('asset-requests.index', ['status' => 'issued']) }}" class="text-decoration-none">
+                            <div class="card stat-card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="stat-label">Issued</div>
+                                            <h2 class="mb-0">{{ $stats['issued_requests'] }}</h2>
+                                        </div>
+                                        <div class="stat-icon" style="background: rgba(6, 182, 212, 0.12); color: #06b6d4;">
+                                            <i class="fas fa-box"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="fw-semibold" style="color: #06b6d4;">View Requests <i class="fas fa-arrow-right ms-1"></i></small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 @if($assetsByStatus->isNotEmpty())
 <div class="row g-3 mb-4">
     <div class="col-lg-5">

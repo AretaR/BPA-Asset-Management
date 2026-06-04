@@ -61,6 +61,13 @@
                         </a>
                     </li>
                     @endcan
+                    @can('viewAny', \App\Models\AssetRequest::class)
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('asset-requests.*') ? 'active' : '' }}" href="{{ route('asset-requests.index') }}">
+                            <i class="fas fa-clipboard-list"></i> Asset Requests
+                        </a>
+                    </li>
+                    @endcan
                     @can('viewAny', \App\Models\Department::class)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('departments.*') ? 'active' : '' }}" href="{{ route('departments.index') }}">

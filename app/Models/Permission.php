@@ -35,6 +35,9 @@ class Permission extends Model
         'reports.view',
         'settings.manage',
         'scanner.access',
+        'asset-requests.create',
+        'asset-requests.view',
+        'asset-requests.approve',
     ];
 
     protected $fillable = [

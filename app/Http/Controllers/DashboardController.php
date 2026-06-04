@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\AssetRequest;
 use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ class DashboardController extends Controller
             'retired_assets' => Asset::retired()->count(),
             'total_value' => Asset::sum('purchase_cost') ?? 0,
             'total_users' => User::count(),
+            'pending_requests' => AssetRequest::pending()->count(),
+            'approved_requests' => AssetRequest::approved()->count(),
+            'rejected_requests' => AssetRequest::rejected()->count(),
+            'issued_requests' => AssetRequest::issued()->count(),
+            'total_requests' => AssetRequest::count(),
             'recent_activities' => ActivityLog::with('user')->latest()->take(10)->get(),
         ];
 

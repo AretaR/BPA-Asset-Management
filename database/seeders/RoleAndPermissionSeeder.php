@@ -56,6 +56,11 @@ class RoleAndPermissionSeeder extends Seeder
 
             // Scanner
             ['name' => 'Access Scanner', 'slug' => 'scanner.access', 'description' => 'Use the QR scanner'],
+
+            // Asset Requests
+            ['name' => 'Create Asset Requests', 'slug' => 'asset-requests.create', 'description' => 'Submit asset requests'],
+            ['name' => 'View Asset Requests', 'slug' => 'asset-requests.view', 'description' => 'View asset requests'],
+            ['name' => 'Approve Asset Requests', 'slug' => 'asset-requests.approve', 'description' => 'Approve, reject, and manage asset requests'],
         ];
 
         $createdPermissions = [];
@@ -103,9 +108,8 @@ class RoleAndPermissionSeeder extends Seeder
             'assets.checkout', 'assets.checkin',
             'categories.view', 'categories.create', 'categories.edit', 'categories.delete',
             'departments.view', 'departments.create', 'departments.edit', 'departments.delete',
-            'reports.view',
-            'settings.manage',
-            'scanner.access',
+            'reports.view', 'settings.manage', 'scanner.access',
+            'asset-requests.create', 'asset-requests.view', 'asset-requests.approve',
         ];
         $admin->permissions()->sync(
             collect($adminPermissions)->map(fn ($slug) => $createdPermissions[$slug]->id)->toArray()
@@ -113,11 +117,8 @@ class RoleAndPermissionSeeder extends Seeder
 
         // ─── Assign permissions to Staff ─────────────────────────────────────
         $staffPermissions = [
-            'assets.view',
-            'categories.view',
-            'departments.view',
-            'reports.view',
-            'scanner.access',
+            'assets.view', 'categories.view', 'departments.view', 'reports.view', 'scanner.access',
+            'asset-requests.create', 'asset-requests.view',
         ];
         $staff->permissions()->sync(
             collect($staffPermissions)->map(fn ($slug) => $createdPermissions[$slug]->id)->toArray()

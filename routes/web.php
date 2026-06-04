@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\EmailLogController;
 use App\Http\Controllers\EmailHealthController;
+use App\Http\Controllers\AssetRequestController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -70,6 +71,10 @@ Route::middleware('auth')->group(function () {
     // ─── Categories / Departments ────────────────────────────────────────────
     Route::resource('categories', CategoryController::class);
     Route::resource('departments', DepartmentController::class);
+
+    // ─── Asset Requests ──────────────────────────────────────────────────────
+    Route::resource('asset-requests', AssetRequestController::class)->only(['index', 'create', 'store', 'show']);
+    Route::patch('asset-requests/{assetRequest}/status', [AssetRequestController::class, 'updateStatus'])->name('asset-requests.update-status');
 
     // ─── Users (admin only) ──────────────────────────────────────────────────
     Route::resource('users', UserController::class);
