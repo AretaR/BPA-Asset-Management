@@ -47,6 +47,7 @@
         ],
         "cloud-deploy": [
             "@php artisan migrate --force",
+            "@php artisan db:seed --class=RoleAndPermissionSeeder --force",
             "@php artisan db:seed --class=UserSeeder --force"
         ],
         "post-autoload-dump": [
