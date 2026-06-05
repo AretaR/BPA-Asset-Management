@@ -43,7 +43,11 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
-            "@php artisan db:seed"
+            "@php artisan db:seed --force"
+        ],
+        "cloud-deploy": [
+            "@php artisan migrate --force",
+            "@php artisan db:seed --class=UserSeeder --force"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
