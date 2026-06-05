@@ -167,6 +167,10 @@ class Asset extends Model
             return null;
         }
 
+        if (config('filesystems.disks.public.driver') === 's3') {
+            return Storage::disk('public')->url($path);
+        }
+
         return route('media.public', ['path' => $path]);
     }
 

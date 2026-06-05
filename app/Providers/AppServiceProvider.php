@@ -26,11 +26,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Use Bootstrap 5 pagination
         Paginator::useBootstrapFive();
 
-        // Ensure storage link exists
-        $this->ensureStorageLink();
+        if (env('AWS_BUCKET')) {
+            $this->useS3ForPublicDisk();
+        } else {
+            $this->ensureStorageLink();
+        }
 
         Asset::observe(AssetObserver::class);
         User::observe(UserObserver::class);
@@ -38,18 +40,25 @@ class AppServiceProvider extends ServiceProvider
         Route::fallback(function () {
             $path = request()->path();
             if (str_starts_with($path, 'storage/')) {
-                $filePath = Storage::disk('public')->path(substr($path, 8));
-                if (file_exists($filePath)) {
-                    return response()->file($filePath);
+                $disk = Storage::disk('public');
+                if (method_exists($disk, 'path')) {
+                    $filePath = $disk->path(substr($path, 8));
+                    if (file_exists($filePath)) {
+                        return response()->file($filePath);
+                    }
                 }
             }
             abort(404);
         });
     }
 
-    /**
-     * Ensure the storage link exists.
-     */
+    protected function useS3ForPublicDisk(): void
+    {
+        $s3Config = config('filesystems.disks.s3');
+        $s3Config['visibility'] = 'public';
+        config(['filesystems.disks.public' => $s3Config]);
+    }
+
     protected function ensureStorageLink(): void
     {
         $publicPath = public_path('storage');
@@ -59,7 +68,6 @@ class AppServiceProvider extends ServiceProvider
             try {
                 symlink($storagePath, $publicPath);
             } catch (\Exception $e) {
-                // Log error but don't break the application
                 \Log::error('Failed to create storage link: ' . $e->getMessage());
             }
         }
