@@ -24,7 +24,7 @@
             <div class="card-body">
                 <table class="table table-borderless mb-0">
                     <tr>
-                        <th>Mail Driver</th>
+                        <th class="text-white">Mail Driver</th>
                         <td>
                             @if($config['mail_mailer'] === 'resend')
                                 <span class="badge bg-success"><i class="fas fa-check me-1"></i> {{ $config['mail_mailer'] }}</span>
@@ -34,7 +34,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Resend API Key</th>
+                        <th class="text-white">Resend API Key</th>
                         <td>
                             @if($config['resend_key_set'])
                                 <span class="badge bg-success"><i class="fas fa-check me-1"></i> Configured</span>
@@ -44,19 +44,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>From Address</th>
+                        <th class="text-white">From Address</th>
                         <td><code>{{ $config['mail_from_address'] ?: 'Not set' }}</code></td>
                     </tr>
                     <tr>
-                        <th>From Name</th>
+                        <th class="text-white">From Name</th>
                         <td>{{ $config['mail_from_name'] ?: 'Not set' }}</td>
                     </tr>
                     <tr>
-                        <th>Queue Connection</th>
+                        <th class="text-white">Queue Connection</th>
                         <td><code>{{ $config['queue_connection'] }}</code></td>
                     </tr>
                     <tr>
-                        <th>Notifications Enabled</th>
+                        <th class="text-white">Notifications Enabled</th>
                         <td>
                             @if($config['email_notifications_enabled'] === 'true' || $config['email_notifications_enabled'] === '1')
                                 <span class="badge bg-success">Enabled</span>
@@ -66,7 +66,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Notification Recipients</th>
+                        <th class="text-white">Notification Recipients</th>
                         <td>
                             @if($config['email_notification_recipients'])
                                 <code>{{ $config['email_notification_recipients'] }}</code>

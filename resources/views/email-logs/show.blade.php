@@ -19,19 +19,19 @@
             <div class="card-body">
                 <table class="table table-bordered">
                     <tr>
-                        <th style="width: 25%">Recipient</th>
+                        <th class="text-white" style="width: 25%">Recipient</th>
                         <td>{{ $emailLog->recipient }}</td>
                     </tr>
                     <tr>
-                        <th>Subject</th>
+                        <th class="text-white">Subject</th>
                         <td>{{ $emailLog->subject }}</td>
                     </tr>
                     <tr>
-                        <th>Type</th>
+                        <th class="text-white">Type</th>
                         <td><code>{{ $emailLog->notification_type }}</code></td>
                     </tr>
                     <tr>
-                        <th>Status</th>
+                        <th class="text-white">Status</th>
                         <td>
                             @if($emailLog->status === 'sent')
                                 <span class="badge bg-success">Sent</span>
@@ -45,24 +45,24 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Resend Message ID</th>
+                        <th class="text-white">Resend Message ID</th>
                         <td><code>{{ $emailLog->resend_message_id ?? '-' }}</code></td>
                     </tr>
                     <tr>
-                        <th>Sent At</th>
+                        <th class="text-white">Sent At</th>
                         <td>{{ $emailLog->sent_at ? $emailLog->sent_at->format('F j, Y g:i:s A') : '-' }}</td>
                     </tr>
                     <tr>
-                        <th>Created At</th>
+                        <th class="text-white">Created At</th>
                         <td>{{ $emailLog->created_at->format('F j, Y g:i:s A') }}</td>
                     </tr>
                     <tr>
-                        <th>Updated At</th>
+                        <th class="text-white">Updated At</th>
                         <td>{{ $emailLog->updated_at->format('F j, Y g:i:s A') }}</td>
                     </tr>
                     @if($emailLog->error_message)
                     <tr>
-                        <th>Error Message</th>
+                        <th class="text-white">Error Message</th>
                         <td>
                             <pre class="mb-0 text-danger" style="white-space: pre-wrap;">{{ $emailLog->error_message }}</pre>
                         </td>

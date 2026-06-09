@@ -28,28 +28,28 @@
             <div class="card-body">
                 <table class="table table-bordered mb-0">
                     <tr>
-                        <th style="width: 200px;">Name</th>
+                        <th class="text-white" style="width: 200px;">Name</th>
                         <td>{{ $notificationTemplate->name }}</td>
                     </tr>
                     @if($notificationTemplate->description)
                     <tr>
-                        <th>Description</th>
+                        <th class="text-white">Description</th>
                         <td>{{ $notificationTemplate->description }}</td>
                     </tr>
                     @endif
                     <tr>
-                        <th>Trigger Event</th>
+                        <th class="text-white">Trigger Event</th>
                         <td>
                             <span class="badge bg-info">{{ $notificationTemplate->trigger_event_label }}</span>
                             <code class="ms-2">{{ $notificationTemplate->trigger_event }}</code>
                         </td>
                     </tr>
                     <tr>
-                        <th>Recipient Type</th>
+                        <th class="text-white">Recipient Type</th>
                         <td>{{ $notificationTemplate->recipient_type_label }}</td>
                     </tr>
                     <tr>
-                        <th>Recipients</th>
+                        <th class="text-white">Recipients</th>
                         <td>
                             @if(is_array($notificationTemplate->recipient_values) && count($notificationTemplate->recipient_values) > 0)
                                 {{ implode(', ', $notificationTemplate->recipient_values) }}
@@ -59,7 +59,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Status</th>
+                        <th class="text-white">Status</th>
                         <td>
                             <span class="badge bg-{{ $notificationTemplate->is_active ? 'success' : 'warning' }}">
                                 {{ $notificationTemplate->is_active ? 'Active' : 'Disabled' }}
@@ -67,11 +67,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Created</th>
+                        <th class="text-white">Created</th>
                         <td>{{ $notificationTemplate->created_at->format('M d, Y h:i A') }}</td>
                     </tr>
                     <tr>
-                        <th>Last Updated</th>
+                        <th class="text-white">Last Updated</th>
                         <td>{{ $notificationTemplate->updated_at->format('M d, Y h:i A') }}</td>
                     </tr>
                 </table>
