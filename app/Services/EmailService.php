@@ -14,13 +14,13 @@ class EmailService
         try {
             Mail::mailer('resend')
                 ->to($recipient)
-                ->queue($mailable);
+                ->send($mailable);
 
             EmailLog::create([
                 'recipient' => $recipient,
                 'subject' => $subject,
                 'notification_type' => $notificationType,
-                'status' => 'queued',
+                'status' => 'sent',
                 'sent_at' => now(),
             ]);
 
