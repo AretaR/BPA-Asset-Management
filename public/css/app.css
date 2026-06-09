@@ -529,7 +529,8 @@ body {
   background: #131b2e;
 }
 
-.table tbody td {
+.table tbody td,
+.table tbody th {
   padding: 10px 14px;
   vertical-align: middle;
   border-bottom: 1px solid #2a3350;
