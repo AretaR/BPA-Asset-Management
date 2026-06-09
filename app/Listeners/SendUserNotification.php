@@ -8,16 +8,23 @@ use App\Events\UserUpdated;
 use App\Mail\UserNotificationMail;
 use App\Models\Setting;
 use App\Services\EmailService;
+use App\Services\NotificationTemplateService;
 use Illuminate\Support\Facades\Mail;
 
 class SendUserNotification
 {
     public function __construct(
-        protected EmailService $emailService
+        protected EmailService $emailService,
+        protected NotificationTemplateService $templateService
     ) {}
 
     public function handleCreated(UserCreated $event): void
     {
+        $this->templateService->sendForEvent('user.created', [
+            'user' => $event->user,
+            'actor' => $event->actor,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -38,6 +45,11 @@ class SendUserNotification
 
     public function handleUpdated(UserUpdated $event): void
     {
+        $this->templateService->sendForEvent('user.updated', [
+            'user' => $event->user,
+            'actor' => $event->actor,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -58,6 +70,11 @@ class SendUserNotification
 
     public function handleDeleted(UserDeleted $event): void
     {
+        $this->templateService->sendForEvent('user.deleted', [
+            'user' => $event->user,
+            'actor' => $event->actor,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }

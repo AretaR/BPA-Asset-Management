@@ -16,6 +16,9 @@
             <a href="{{ route('settings.email') }}" class="list-group-item list-group-item-action">
                 <i class="fas fa-envelope me-2"></i> Email Settings
             </a>
+            <a href="{{ route('notification-templates.index') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-bell me-2"></i> Notification Templates
+            </a>
         </div>
     </div>
 
@@ -42,6 +45,10 @@
             <a href="{{ route('email-health.index') }}" class="list-group-item list-group-item-action">
                 <i class="fas fa-heartbeat me-2"></i> Email Health
                 <small class="text-muted d-block">Monitor email system health and statistics</small>
+            </a>
+            <a href="{{ route('notification-templates.index') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-bell me-2"></i> Notification Templates
+                <small class="text-muted d-block">Create and manage custom email notification templates</small>
             </a>
                     @if(auth()->user()->canManageRbac())
                     <a href="{{ route('roles.index') }}" class="list-group-item list-group-item-action">

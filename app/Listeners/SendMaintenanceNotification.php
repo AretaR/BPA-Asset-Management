@@ -7,15 +7,23 @@ use App\Events\MaintenanceOverdue;
 use App\Mail\MaintenanceNotificationMail;
 use App\Models\Setting;
 use App\Services\EmailService;
+use App\Services\NotificationTemplateService;
 
 class SendMaintenanceNotification
 {
     public function __construct(
-        protected EmailService $emailService
+        protected EmailService $emailService,
+        protected NotificationTemplateService $templateService
     ) {}
 
     public function handleDue(MaintenanceDue $event): void
     {
+        $this->templateService->sendForEvent('maintenance.due', [
+            'asset' => $event->asset,
+            'due_date' => $event->dueDate,
+            'notes' => $event->notes,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -36,6 +44,12 @@ class SendMaintenanceNotification
 
     public function handleOverdue(MaintenanceOverdue $event): void
     {
+        $this->templateService->sendForEvent('maintenance.overdue', [
+            'asset' => $event->asset,
+            'due_date' => $event->dueDate,
+            'notes' => $event->notes,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }

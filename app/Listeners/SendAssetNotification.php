@@ -10,15 +10,22 @@ use App\Events\AssetUpdated;
 use App\Mail\AssetNotificationMail;
 use App\Models\Setting;
 use App\Services\EmailService;
+use App\Services\NotificationTemplateService;
 
 class SendAssetNotification
 {
     public function __construct(
-        protected EmailService $emailService
+        protected EmailService $emailService,
+        protected NotificationTemplateService $templateService
     ) {}
 
     public function handleCreated(AssetCreated $event): void
     {
+        $this->templateService->sendForEvent('asset.created', [
+            'asset' => $event->asset,
+            'actor' => $event->actor,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -39,6 +46,11 @@ class SendAssetNotification
 
     public function handleUpdated(AssetUpdated $event): void
     {
+        $this->templateService->sendForEvent('asset.updated', [
+            'asset' => $event->asset,
+            'actor' => $event->actor,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -59,6 +71,11 @@ class SendAssetNotification
 
     public function handleDeleted(AssetDeleted $event): void
     {
+        $this->templateService->sendForEvent('asset.deleted', [
+            'asset' => $event->asset,
+            'actor' => $event->actor,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -79,6 +96,12 @@ class SendAssetNotification
 
     public function handleCheckedOut(AssetCheckedOut $event): void
     {
+        $this->templateService->sendForEvent('asset.checked_out', [
+            'asset' => $event->asset,
+            'actor' => $event->actor,
+            'notes' => $event->notes,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }
@@ -109,6 +132,12 @@ class SendAssetNotification
 
     public function handleCheckedIn(AssetCheckedIn $event): void
     {
+        $this->templateService->sendForEvent('asset.checked_in', [
+            'asset' => $event->asset,
+            'actor' => $event->actor,
+            'notes' => $event->notes,
+        ]);
+
         if (!Setting::get('email_notifications_enabled', true)) {
             return;
         }

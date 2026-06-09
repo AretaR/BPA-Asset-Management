@@ -22,6 +22,9 @@
             <a href="{{ route('email-health.index') }}" class="list-group-item list-group-item-action">
                 <i class="fas fa-heartbeat me-2"></i> Email Health
             </a>
+            <a href="{{ route('notification-templates.index') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-bell me-2"></i> Notification Templates
+            </a>
         </div>
     </div>
 

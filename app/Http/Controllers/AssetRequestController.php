@@ -8,16 +8,19 @@ use App\Models\AssetRequest;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\EmailService;
+use App\Services\NotificationTemplateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class AssetRequestController extends Controller
 {
     protected EmailService $emailService;
+    protected NotificationTemplateService $templateService;
 
-    public function __construct(EmailService $emailService)
+    public function __construct(EmailService $emailService, NotificationTemplateService $templateService)
     {
         $this->emailService = $emailService;
+        $this->templateService = $templateService;
     }
 
     public function index(Request $request)
@@ -145,6 +148,11 @@ class AssetRequestController extends Controller
     protected function sendNotification(string $action, AssetRequest $assetRequest): void
     {
         try {
+            $this->templateService->sendForEvent("asset-request.{$action}", [
+                'assetRequest' => $assetRequest,
+                'actor' => auth()->user(),
+            ]);
+
             $recipients = [];
 
             if ($action === 'submitted') {

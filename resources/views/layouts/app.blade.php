@@ -124,6 +124,11 @@
                             <i class="fas fa-heartbeat"></i> Email Health
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('notification-templates.*') ? 'active' : '' }}" href="{{ route('notification-templates.index') }}">
+                            <i class="fas fa-bell"></i> Notifications
+                        </a>
+                    </li>
                     @endif
 
                 </ul>

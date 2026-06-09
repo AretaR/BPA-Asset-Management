@@ -19,6 +19,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\EmailLogController;
 use App\Http\Controllers\EmailHealthController;
 use App\Http\Controllers\AssetRequestController;
+use App\Http\Controllers\NotificationTemplateController;
+use App\Models\NotificationTemplate;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -107,6 +109,23 @@ Route::middleware('auth')->group(function () {
             Route::get('{emailLog}', [EmailLogController::class, 'show'])->name('show');
             Route::delete('{emailLog}', [EmailLogController::class, 'destroy'])->name('destroy');
             Route::post('clear', [EmailLogController::class, 'clear'])->name('clear');
+        });
+
+        Route::prefix('notification-templates')->name('notification-templates.')->group(function () {
+            Route::get('/', [NotificationTemplateController::class, 'index'])->name('index');
+            Route::get('create', [NotificationTemplateController::class, 'create'])->name('create');
+            Route::post('/', [NotificationTemplateController::class, 'store'])->name('store');
+            Route::get('{notificationTemplate}', [NotificationTemplateController::class, 'show'])->name('show');
+            Route::get('{notificationTemplate}/edit', [NotificationTemplateController::class, 'edit'])->name('edit');
+            Route::put('{notificationTemplate}', [NotificationTemplateController::class, 'update'])->name('update');
+            Route::delete('{notificationTemplate}', [NotificationTemplateController::class, 'destroy'])->name('destroy');
+            Route::patch('{id}/restore', [NotificationTemplateController::class, 'restore'])->name('restore');
+            Route::get('placeholders/list', function (Illuminate\Http\Request $request) {
+                $event = $request->query('event');
+                return response()->json(NotificationTemplate::placeholdersFor($event));
+            })->name('placeholders');
+            Route::post('{notificationTemplate}/preview', [NotificationTemplateController::class, 'preview'])->name('preview');
+            Route::post('{notificationTemplate}/test', [NotificationTemplateController::class, 'test'])->name('test');
         });
 
         Route::prefix('email-health')->name('email-health.')->group(function () {
