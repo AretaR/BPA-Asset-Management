@@ -101,7 +101,7 @@
                             <input class="form-check-input" type="checkbox" name="recipient_values[]"
                                    value="{{ $role['id'] }}" id="role_{{ $role['id'] }}"
                                    {{ in_array($role['id'], old('recipient_values', $notificationTemplate->recipient_type === 'roles' ? ($notificationTemplate->recipient_values ?? []) : [])) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="role_{{ $role['id'] }}">{{ $role['name'] }}</label>
+                            <label class="form-check-label text-white" for="role_{{ $role['id'] }}">{{ $role['name'] }}</label>
                         </div>
                         @endforeach
                     </div>
@@ -114,7 +114,7 @@
                                 <input class="form-check-input" type="checkbox" name="recipient_values[]"
                                        value="{{ $user->id }}" id="user_{{ $user->id }}"
                                        {{ in_array($user->id, old('recipient_values', $notificationTemplate->recipient_type === 'users' ? ($notificationTemplate->recipient_values ?? []) : [])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="user_{{ $user->id }}">
+                                <label class="form-check-label text-white" for="user_{{ $user->id }}">
                                     {{ $user->name }} <small class="text-muted">({{ $user->email }})</small>
                                 </label>
                             </div>
