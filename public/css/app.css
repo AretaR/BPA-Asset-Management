@@ -335,6 +335,7 @@ body {
 
 .card-body {
   padding: 18px;
+  color: var(--text-primary);
 }
 
 .card-title {
