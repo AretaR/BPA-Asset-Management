@@ -166,7 +166,9 @@ class UserController extends Controller
         $user->update($validated);
         $user->syncAssignedRole($validated['role']);
 
-        ActivityLog::logAction('updated', $user, $oldValues, $validated);
+        $logValues = $validated;
+        unset($logValues['password'], $logValues['password_confirmation'], $logValues['avatar']);
+        ActivityLog::logAction('updated', $user, $oldValues, $logValues);
 
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully.');

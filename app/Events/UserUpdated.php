@@ -14,11 +14,13 @@ class UserUpdated
     public User $user;
     public ?User $actor;
     public array $changes;
+    public bool $passwordOnly;
 
-    public function __construct(User $user, ?User $actor = null, array $changes = [])
+    public function __construct(User $user, ?User $actor = null, array $changes = [], bool $passwordOnly = false)
     {
         $this->user = $user;
         $this->actor = $actor;
         $this->changes = $changes;
+        $this->passwordOnly = $passwordOnly;
     }
 }

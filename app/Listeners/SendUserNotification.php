@@ -58,7 +58,7 @@ class SendUserNotification
         $action = 'updated';
 
         foreach ($recipients as $recipient) {
-            $mailable = new UserNotificationMail($action, $event->user, $event->changes);
+            $mailable = new UserNotificationMail($action, $event->user, $event->changes, $event->passwordOnly ?? false);
             $this->emailService->send(
                 $recipient,
                 $mailable->envelope()->subject,

@@ -16,12 +16,14 @@ class UserNotificationMail extends Mailable
     public string $action;
     public User $user;
     public ?array $changes;
+    public bool $passwordOnly;
 
-    public function __construct(string $action, User $user, ?array $changes = null)
+    public function __construct(string $action, User $user, ?array $changes = null, bool $passwordOnly = false)
     {
         $this->action = $action;
         $this->user = $user;
         $this->changes = $changes;
+        $this->passwordOnly = $passwordOnly;
     }
 
     public function envelope(): Envelope
